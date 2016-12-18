@@ -1,0 +1,124 @@
+ {__NOLAYOUT__}
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+    <head>
+
+        <meta charset="utf-8">
+        <title>登录</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <!-- CSS -->
+        <link rel='stylesheet' href='__STATIC__/css/bac.css'>
+        <link rel="stylesheet" href="__STATIC__/css/reset.css">
+        <link rel="stylesheet" href="__STATIC__/css/supersized.css">
+        <link rel="stylesheet" href="__STATIC__/css/style.css">
+    
+        <script src="__STATIC__/js/jquery-1.8.2.min.js"></script>
+        <script src="__STATIC__/js/supersized.3.2.7.min.js"></script>
+        <script src="__STATIC__/js/supersized-init.js"></script>
+        <script src="__STATIC__/js/scripts.js"></script>
+       
+
+    </head>
+
+    <body>
+
+        <div class="page-container">
+            <h1>登录</h1>
+            <form action="{:url('user/doLogin')}" method="post">
+            <div class="item item-fore1"><label for="loginname" class="login-label name-label"></label><input name="username" type="text" class="text" placeholder="请输入用户"/><span class="utips" style="color:red;"></span></div><br/>
+            <div class="item item-fore2"><label for="nloginpwd" class="login-label pwd-label"></label><input name="password" type="password" class="text" placeholder="用户密码"/><span class="ptips" style="color:red;"></span></div>
+            <div class="login-btn" type="submit" style="height:40px;text-align: center; padding-top:26px;margin-top:13px;background:#FF7534;"/><a href="javascript:;" class="btn_login">登录</a></div>
+           
+            </form>
+           
+        </div>
+       <script>
+           // 用户验证
+           //任何段落失去焦点时弹出一个
+             $(":input:eq(0)").blur(function(){
+                douser();
+
+             })
+             //当按下按键时
+                $(":input:eq(0)").keyup(function(){
+                douser();
+                })
+             function douser()
+             {
+                var reg = /^(\w){6,12}$/;
+                //获取文本框中的值
+                var v1=$(":input:eq(0)").val();
+                if(v1.length==0){
+                    $(".utips").html("用户名不能为空");
+                    return false;
+                }else{
+                    if(v1.length<6||v1.legth>12){
+                        $(".utips").html("用户名长度需介于6-12之间");
+                        return false;
+                    }else{
+                    if(!reg.test(v1)){
+                    $(".utips").html("用户名格式不正确");
+                  return false;
+                    }else{
+                    $(".utips").html('');
+                    return true;
+
+                    }
+                  }
+                }
+             }
+
+             // 密码验证
+
+
+             $(":input:eq(1)").blur(function(){
+                dopwd();
+             })
+
+             $(":input:eq(1)").keyup(function(){
+                dopwd();
+             })
+
+             function dopwd()
+             {
+
+                var v1=$(":input:eq(1)").val();
+                if(v1.length==0){
+                     $(".ptips").html("密码不能为空");
+                      return false;
+                }else{
+                    if(v1.length<6||v1.legth>20){
+                        $(".ptips").html("密码长度需介于6-12之间");
+                        return false;
+                    }else{
+                            $(".ptips").html("");
+                            return true;
+                    }
+                }
+
+             }
+
+             $('.btn_login').click(function(){
+                if(dopwd()&& douser()){
+                    return $(this).parents('form').submit();
+                }else{
+                    return false;
+                }
+             })
+
+       </script>
+
+     
+      
+
+
+
+
+    </body>
+
+</html>
+

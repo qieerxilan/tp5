@@ -1,0 +1,484 @@
+
+<!--以上是头部-->
+<div class="bgeb2">    
+    <section class="w1150 clear siXin">
+        <div class="privateLetter clear">
+            <h1 class="fl"><a href="/message">我的私信</a></h1>
+		
+
+        </div>
+        <div class="newsCenter_reply">
+            <article class="clear">
+            	<form action="__SITE__/index/user/request/uid/{$privates_uid}" method="post">
+                <div class="top_text clear">
+                    <span class="fr">还可以输入<i class="red">200</i>字</span>
+                </div>
+                <textarea class="reply_tarea" maxlength="200" name="privates_content" id="art"></textarea>
+                
+				
+
+         
+                <div class="reply_btnBox">
+                    <input type="submit" value="发送">
+                </div>
+				</form>
+            </article>
+			
+
+
+
+            <script type="text/javascript">
+				$('textarea').on('keyup', function () {
+					var num = 200 - $(this).val().length;
+					$(this).parent().find('.red').html(num);
+					if (num <= 0) {
+						$(this).parent().find('.red').html(0);
+						alert('最多可以输入200字，多出的字将被截断！');
+						var str = $(this).val().substr(0, 200);
+						$(this).attr("value", str);
+					}
+				});
+			</script>
+			<script type="text/javascript">
+			$(function(){
+				$('#submit_content').on('click',function(){
+					var content = $.trim($('#content').val());
+					if(content == '' || undefined == content){
+						alert('请填写私信内容');
+						$('#content').focus();
+						return false;
+					}
+					$.ajax({
+						url:'/message/do',
+						type:'post',
+						data:{'ajax':'add','user_id':127003,'content':content},
+						dataType:'json',
+						global:false,
+						beforeSend:function(){
+							$('#submit_content').html('发送中...');
+						},
+						success:function(result){
+							if(result.code == 1){
+								$('#content').val('');
+								$('#content').parent().find('i').html(200);
+								showMessageList(1);
+							}else if(result.code < 0){
+								alert(result.msg);
+							}
+						},
+						complete:function(){
+							$('#submit_content').html('发送');
+						}
+					});
+				});
+				
+			});
+			
+			//Ctrl+Enter提交
+			$(document).keydown(function(e) {
+				if(e.ctrlKey && (e.which == 13 || e.which == 10)){
+					$('#submit_content').click();
+				}
+			});
+			</script>
+			<article class="dialogue">
+				<ul id="message_list"> </ul>
+				<script type="text/javascript">
+					$(function(){
+						showMessageList(1);
+					});
+					//获取评论列表
+					function showMessageList(page){
+						$.ajax({
+							type:'post',
+							url:'/message/do',
+							data:{"ajax":"list","user_id":127003,"page":page},
+							dataType:"json",
+							global:false,
+							success:function(result){
+								if(result.code == "1"){
+									$("#message_list").html(result.data.list);
+									fixAjax(page);
+									if(result.data.total_unread > 0){
+										$.ajax({
+											url:'/message/do',
+											type:'post',
+											data:{'ajax':'update-read_yn','user_id':127003},
+											dataType:'json',
+											success:function(result){
+												$("#dismsg").html(result);
+											}
+										});
+									}
+								}
+							}
+						});
+					}
+					//
+					//fixajax
+					function fixAjax(page){
+						
+					}
+					</script>
+					<script type="text/javascript">
+					$(function () {
+						$('#content').focus();
+						//setInterval("checkkNewMessage()", 10000);
+					}); 
+					//定时检查新消息
+					function checkkNewMessage(){
+						$.ajax({
+							type:"post",
+							url:'/message/do',
+							data:{'ajax':'check-new_message', 'user_id':127003},
+							dataType:'json',
+							global:false,
+							success:function(result){
+								if(result.code == 1){
+									showMessageList(1);
+								}
+							}
+						});
+					}
+					</script>
+            </article>
+        </div>
+    </section>
+    
+</div><!--bgeb end-->
+			
+
+
+<script type="text/javascript">
+//屏蔽消息
+function doMessageDeny(){
+	$.ajax({
+		type:"post",
+		url:'/message/send',
+		data:{'ajax':'update-message_deny','user_id':127003},
+		dataType:'json',
+		global:false,
+		success:function(result){
+			if(result.errorCode == 0 && flag == 1){
+				//$(".shield").html('<span onclick="doDeny(127003,2)"></span><a id="forbid" onclick="doDeny(127003,2)">取消屏蔽</a>');
+				//$("#ifforbid").val('1');
+			}else if(result.errorCode == 0 && flag == 2){
+				//$(".shield").html('<span onclick="doDeny(127003,1)"></span><a id="forbid" onclick="doDeny(127003,1)">屏蔽消息</a>');
+				//$("#ifforbid").val('0');
+			}else{
+
+			}
+		}
+	});
+}
+</script>
+
+<div id="ft">
+	<ul>
+		<li>
+			<h5>关于我们<br /><em>ABOUT US</em></h5>
+			<p><a href="/intro/about" target="_blank">关于待着</a></p>
+			<p><a href="/intro/join" target="_blank">加入我们</a></p>
+			<p><a href="/intro/contact" target="_blank">联系我们</a></p>
+			<p><a href="/intro/media" target="_blank">媒体报道</a></p>
+			<p><a href="/experience/supply" target="_blank">商业合作</a></p>
+			<p><a href="/intro/cooperation" target="_blank">Cooperation</a></p>
+		</li>
+		<li>
+			<h5>帮助中心<br /><em>HELP</em></h5>
+			<p><a href="/intro/help" target="_blank">玩转待着</a></p>
+			<p><a href="/intro/advice" target="_blank">建议反馈</a></p>
+			<p><a href="/passport/certified" target="_blank">申请认证</a></p>
+		</li>
+		<li>
+			<h5>关于体验<br /><em>EXPERIENCE</em></h5>
+			<p><a href="/intro/aboutexp/v/1#content1" target="_blank">为何免费</a></p>
+			<p><a href="/intro/aboutexp/v/2#content2" target="_blank">是否有黑幕</a></p>
+			<p><a href="/intro/aboutexp/v/3#content3" target="_blank">何为体验官</a></p>
+			<p><a href="/intro/aboutexp/v/4#content4" target="_blank">体验官如何产生</a></p>
+			<p><a href="/video" target="_blank">活动视频</a></p>
+		</li>
+		<!-- 
+		<li>
+			<h5>合作伙伴<br /><em>HELP</em></h5>
+			<p><a href="http://www.lavion.com.cn?from=daizhe" target="_blank">优翔国际</a></p>
+			<p><a href="http://www.soyoung.com?from=daizhe" target="_blank">新氧美丽社区</a></p>
+		</li>
+		 -->
+		<li>
+			<h5>网站条款<br /><em>SITE TERMS</em></h5>
+			<p><a href="/intro/termsuser" target="_blank">会员条款</a></p>
+			<p><a href="/intro/copyright" target="_blank">版权声明</a></p>
+		</li>
+		<li class="last">
+			<a href="http://weibo.com/678300513" target="_blank" class="sina">待着公众微博</a>
+			<a href="javascript:;" class="weixin" style="cursor:default; text-decoration:none;">待着公众微信</a>
+			<img src="/images/daizhe_code_n.png" alt="" width="98" height="98" />
+		</li>
+	</ul>
+	<p class="copyright">copyright 2014 daizhe.cn  All rights reserved    <a href="http://www.miitbeian.gov.cn/" target="_blank">京ICP备10215719号-5</a></p>
+</div>
+
+<script type="text/javascript">
+$(function(){
+	$(".btn_track").click(function(){
+		var btn_value=$(this).attr("btntrackv");
+		logRecorde(btn_value);
+	});
+});
+</script>
+
+<style type="text/css">
+#common_ajax_loading {display:none; width:100px; height:100px; line-height:100px; background:#777A83; text-align:center; overflow:hidden; position:fixed; z-index:999999991; left:50%; bottom:100px; margin-left:-50px; color:#ffffff; font-size:18px; filter: alpha(opacity=60); opacity:0.5; -moz-opacity:0.5;}
+#common_ajax_loading img {vertical-align:middle;}
+#common_ajax_mask {display:none; position:fixed; z-index:999999990; top:0; left:0; right:0px; bottom:0px; background:#333333; filter:alpha(opacity=60); opacity:0.6;}
+</style>
+<div id="common_ajax_loading">
+	<img src="/images/ajax_loading_def.gif"/>
+</div>
+<div id="common_ajax_mask"></div>
+<script type="text/javascript">
+$(function(){
+	$(document).ajaxStart(function(){
+		showComAjaxLoading();
+	});
+	$(document).ajaxStop(function(){
+		hideComAjaxLoading();
+	});
+});
+// 显示通用loading
+function showComAjaxLoading($str) {
+	if(typeof($str) != 'undefined'){
+		$('#common_ajax_loading').find('span').html($str);
+	}
+	$('#common_ajax_loading').show();
+}
+// 隐藏通用loading
+function hideComAjaxLoading($t) {
+	if(typeof($t) != 'undefined'){
+		$t = 300;
+	}
+	$('#common_ajax_loading').fadeOut($t);
+}
+// 显示通用mask
+function showComAjaxMask() {
+	$('#common_ajax_mask').show();
+}
+// 隐藏通用mask
+function hideComAjaxMask($t) {
+	if(typeof($t) != 'undefined'){
+		$t = 300;
+	}
+	$('#common_ajax_mask').fadeOut($t);
+}
+</script>
+
+<script type="text/javascript">
+/*返回顶部
+-------------------------------------------------------------*/
+function returnTop(){
+	var $backToTopEle = $('<div class="backToTop"></div>').prependTo($("body")).click(function() {
+		$("html, body").animate({ scrollTop: 0 }, 500);
+	})
+	var $backToTopFun = function() {
+		var st = $(document).scrollTop(), winh = $(window).height();
+		(st > 1000)? $backToTopEle.show(): $backToTopEle.hide();
+		//IE6下的定位
+		if (!window.XMLHttpRequest) {
+			$backToTopEle.css("top", st + winh - 166);	
+		}
+	};
+	$(window).bind("scroll", $backToTopFun);
+	$backToTopFun();
+	$(".backToTop").hover(function(){
+		$(this).addClass("on2")
+		},function(){
+		$(this).removeClass("on2")
+	})
+}
+returnTop();
+
+function Feedback(){
+	var $backToTopEle = $('<a href="/intro/advice" target="_blank" class="Feedback"></a>').prependTo($("body")).click(function() {
+		
+	})
+	var $backToTopFun = function() {
+		var st = $(document).scrollTop(), winh = $(window).height();
+		(st > 1000)? $backToTopEle.show(): $backToTopEle.hide();	
+		//IE6下的定位
+		if (!window.XMLHttpRequest) {
+			$backToTopEle.css("top", st + winh - 166);
+		}
+	};
+	$(window).bind("scroll", $backToTopFun);
+	$backToTopFun();
+	$(".Feedback").hover(function(){
+		$(this).addClass("on2");
+	},function(){
+		$(this).removeClass("on2");
+	})
+}
+Feedback();
+
+function Provide(){
+	var $backToTopEle = $('<a href="/supply?Launch" target="_blank" class="Provide"></a>').prependTo($("body")).click(function() {
+		
+	})
+	var $backToTopFun = function() {
+		var st = $(document).scrollTop(), winh = $(window).height();
+		(st > 1000)? $backToTopEle.show(): $backToTopEle.hide();
+		//IE6下的定位
+		if (!window.XMLHttpRequest) {
+			$backToTopEle.css("top", st + winh - 166);
+		}
+	};
+	$(window).bind("scroll", $backToTopFun);
+	$backToTopFun();
+	$(".Provide").hover(function(){
+		$(this).addClass("on2")
+	},function(){
+		$(this).removeClass("on2")
+	})
+}
+Provide();
+</script>
+
+<script type="text/javascript" src="/assets/js/ws/swfobject.js"></script>
+<script type="text/javascript" src="/assets/js/ws/web_socket.js"></script>
+<script type="text/javascript" src="/assets/js/ws/json.js"></script>
+<script type="text/javascript">
+// window.onload = function(){
+// 	ws_init();
+// };
+// if (typeof console == "undefined") {
+// 	this.console = {
+// 		log: function(msg){}
+// 	};
+// }
+// WEB_SOCKET_SWF_LOCATION = "/assets/js/ws/swf/WebSocketMain.swf";
+// WEB_SOCKET_DEBUG = true;
+// WEB_SOCKET_SUPPRESS_CROSS_DOMAIN_SWF_ERROR = true;
+// var ws,
+// 	ws_timer;
+// function ws_init() {
+// 	ws = new WebSocket('ws://' + document.domain + ':3232');
+// 	ws.onopen = function() {
+// 		ws_timer && window.clearInterval(ws_timer);
+// 		var connect = {
+// 			"client_uid": "193895", 
+// 			"client_key": "94e0S5gTpTad+nCVfG9z9SM5g+iSFuBKit5H55S036dh0lo"
+// 		};
+// 		ws.send(JSON.stringify(connect));
+// 	};
+// 	ws.onmessage = function(e) {
+// 				try {
+// 			var result = JSON.parse(e.data);
+// 			switch(result.push_type){
+// 				case 'checknotice': //推送消息数
+// 					showMessage1(result);
+// 					break;
+// 				default:
+// 					break;
+// 			}
+// 		} catch(err) {
+// 		}
+// 	};
+// 	ws.onclose = function() {
+// 		window.clearInterval(ws_timer);
+// 		ws_timer = window.setInterval(ws_init, 5000);
+// 	};
+// 	ws.onerror = function() {
+// 	};
+// }
+</script>
+
+
+<script type="text/javascript">
+//展示推送的信息1
+function showMessage1(result){
+	//console.log(result);
+	if(typeof(result.push_data) != "undefined"){
+		show_notice(result.push_data);
+	}
+		if(result.push_to_uid == "193895" && typeof(result.push_from_uid) != "undefined" && result.push_from_uid == "127003" && typeof(showMessageList) == "function"){
+		showMessageList(1);
+	}
+	}
+//展示消息数
+function show_notice(data){
+	//console.log(data);
+	if(data.new_all_cnt == 0){
+		if($('#head-notice_all_cnt1').length > 0){
+			$('#head-notice_all_cnt1').hide();
+			$('#head-notice_all_cnt1').html('0');
+		}
+		if($('#head-notice_all_cnt2').length > 0){
+			$('#head-notice_all_cnt2').hide();
+			$('#head-notice_all_cnt2').html('0');
+		}
+	}else if(data.new_all_cnt > 0){
+		if($('#tip-notice_all_cnt').length > 0){
+			$('#tip-notice_all_cnt').html(data.new_all_cnt);
+			if($('#tip-notice_all_cnt').parents('.newsCenter_tit').find('.newDian').length == 0){
+				$('#tip-notice_all_cnt').parents('.newsCenter_tit').prepend('<span class="newDian"></span>');
+			}
+		}
+		if($('#head-notice_all_cnt1').length > 0){
+			$('#head-notice_all_cnt1').html(data.new_all_cnt);
+			$('#head-notice_all_cnt1').show();
+		}
+		if($('#head-notice_all_cnt2').length > 0){
+			$('#head-notice_all_cnt2').html(data.new_all_cnt);
+			$('#head-notice_all_cnt2').show();
+		}
+	}
+	if(data.new_notification_cnt > 0){
+		if($('#tip-notice_notification_cnt').length > 0){
+			$('#tip-notice_notification_cnt').html(data.new_notification_cnt);
+			if(data.new_notification_cnt!=$('#more-notice_notification_cnt').html() && $('#more-notice_type').html()==1){
+				window.location.reload();
+			}
+		} 
+		$('#head_notice_link').attr('href', '/notification');
+	}else{
+		$("#all_hu").hide();   
+	}
+	if(data.new_message_cnt > 0){
+		if($('#tip-notice_message_cnt').length > 0){
+			$('#tip-notice_message_cnt').html(data.new_message_cnt);
+			if(data.new_message_cnt!=$('#more-notice_message_cnt').html() && $('#more-notice_type').html()==2){
+				window.location.reload();
+			}
+		}
+		$('#head_notice_link').attr('href', '/message');
+	}
+	if(data.new_news==2){
+		$('#head_notice_link').attr('href', '/notification');
+	}else{
+		$('#head_notice_link').attr('href', '/message');
+	}
+}
+</script>
+
+
+
+<!-- 统计代码开始 -->
+<div style="display: none;">
+	<script type="text/javascript">
+	var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+	document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fca0cd3424b3d97d1671da2b5a4dbe92d' type='text/javascript'%3E%3C/script%3E"));
+	</script>
+</div>
+<!-- 统计代码结束 -->
+
+<script type="text/javascript">
+$(function(){
+	if($("img.lazyLoad").length > 0){
+		$("img.lazyLoad").lazyload({
+			effect: "fadeIn"
+		});
+	}
+});
+</script>
+</body>
+</html>

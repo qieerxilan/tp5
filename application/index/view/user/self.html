@@ -1,0 +1,895 @@
+﻿
+
+<div class="per_bg">
+    <div class="w1150">
+        <!--banner栏-->
+        <div class="per_myinfo clear">
+            <div class="imgHead">
+                <a href="/user/193895"><img src="__SITE__/uploads/{$dat[0]['avatar']}" alt="大巧若拙" /></a>
+            </div>
+            <h3>
+				<span class="name clear">
+					<a href="/user/193895" class="namePer">{$dat[0]['username']}</a>
+					<span class="abox">
+											</span>
+				</span>
+				<script type="text/javascript">
+				$(function(){
+					$(".personTitle").hover(function(){
+						$(this).find(".showName").show();
+					},function(){
+						$(this).find(".showName").hide();
+					});
+				});
+				</script>
+				<!-- t1 t2 t3 t4 t5-->
+			</h3> {if !$dat[0]['perlabel']}
+            <p class="ana">TA的签名还在环游世界 过两天就来</p>
+            {else}
+            <p class="ana">{$dat[0]['perlabel']}</p>
+            {/if}
+
+            <div class="contact">
+                <a href="javascript:;" class="jia" id="btn">关注</a>
+                <a href="__SITE__/index/user/message/uid/{$dat[0]['uid']}/username/{$dat[0]['username']}" target="_blank" class="message">私信</a>
+            </div>
+            {if $data != null}
+            <script type="text/javascript">
+            $(function() {
+
+                var a = 0;
+
+                $("#btn").click(function() {
+                
+                    a = a + 1;
+                    if (a >= 2) {
+
+                        alert('不能重复关注');
+                        return false;
+                    }
+
+                    $.ajax({
+                        type: "POST",
+                        url: "__SITE__/index/user/followad",
+                        data: {
+                            'follow_uid': {$data[0]['uid']}
+                        },
+                        success: function(msg) {
+                            alert(msg);
+                        }
+                    });
+
+
+
+                });
+
+
+            });
+            </script>
+        </div>
+        <div style="width:1150px;margin:17px auto 12px auto;">
+            <div id="ads-user_index_top_ad1">
+            </div>
+        </div>
+        <!--main主体-->
+        <div class="pre_main clear">
+            <div class="fl main_left">
+                <div class="main_leftConcrete">
+                    <div class="menu">
+                        <!-- <a href="/user/193895" class="on">首页</a> -->
+                        <a href="__SITE__/index/article/article">状态</a>
+                        <a href="__SITE__/index/life/arts">发表帖子</a> 
+                        <!-- 	<a href="/user/193895/apply" >体验</a>
+					<a href="/user/193895/share" >帖子</a>
+										<a href="/user/193895/fav" >喜欢</a> -->
+                    </div>
+                    <!--发布内容-->
+                    <div class="publishMain" id="listLoopArea">
+                        <!--状态-->
+                        {foreach $data as $value}
+                        <section class="modelInfo clear" id="statusData_73604">
+                            <!-- <a href="/user/193895" target="_blank"><img src="{$value.test_picture}" class="fl imgHead"/></a> -->
+                            <div class="fl infoRight">
+                                <h3><a href="/user/193895" target="_blank" class="name">{$value.username}</a> 发布了一个状态</h3>
+                                <span class="time">{$value.textcreate_time}</span>
+                                <div class="box clear">
+                                    <div class="fl text text_ty moreImg_things">
+                                        <p class="p_t p_t4">
+                                            <em></em>{$value.test_article}<i></i>
+                                            <!-- 此处限字96个-->
+                                        </p>
+                                        <div class="moreImg_pics moreImg_pics1 clear">
+                                            <ul data-cnt="1">
+                                                <li><a href="__SITE__/uploads/{$value.test_picture}" data-lightbox="group_73604">
+										{if $value.test_picture}	
+										<img id="statusData_73604_0" data-src="picture/20161210111726293.jpg" src="__SITE__/uploads/{$value.test_picture}" />
+										{/if}
+
+
+										</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="icos icosImg">
+                                            <i class="i2 Favor2" id="statusFavorCnt_73604" data-status_id="73604">1</i>
+                                            <!-- i2_red 变红-->
+                                            <i class="i3 Review2" id="commentCnt_9_73604" data-comment_type="9" data-relate_id="73604">0</i>
+                                        </div>
+                                    </div>
+                                    <div class="fl perAdd_tags">
+                                        <i class="biaoqian"></i>
+                                        <!--标签：-->
+                                        <!--  增加践行体验关联 -->
+                                        &nbsp;
+                                        <a href="/status/tag/id/15449" title="afasdf">afasd..</a>
+                                    </div>
+                                </div>
+                                <!--评论展开-->
+                                <div class="ReviewBox" id="commentBox_9_73604">
+                                    <span class="r_san"></span>
+                                    <div class="clear inputTxt">
+                                        <textarea class="w_input fl" id="commentContent_9_73604"></textarea>
+                                        <input type="hidden" id="commentReplyHead_9_73604" value="" />
+                                        <input type="hidden" id="commentFid_9_73604" value="0" />
+                                        <input type="button" class="fl txtBtn commentSubmit" id="commentSubmit_9_73604" data-comment_type="9" data-relate_id="73604" />
+                                    </div>
+                                    <ul class="com_list clear" id="commentListBox_9_73604"></ul>
+                                    <div class="moreMeg cBlue" id="commentBtnMore_9_73604"></div>
+                                    <div class="shou putAway">收起<i></i></div>
+                                </div>
+                            </div>
+                        </section>
+                        {/foreach}
+                      
+                    </div>
+                      {else}
+
+                            <div style="color:red;font_size:100px;">该用户尚未发表任何状态</div>
+
+
+                        {/if}
+               
+                </div>
+               
+                <!--加载更多-->
+                <div class="per_more" id="getMore" data-page="1" data-pagenum="1">
+                </div>
+            </div>
+            <!--右侧关于我-->
+            <!--右侧关于我-->
+            <div class="fr main_right">
+                <h1>关于<i>他</i></h1>
+                <!-- 或她-->
+                <!-- 积分和经验-->
+                <!--<div class="Integral">
+                	<span class="daimeng"><a href="/growth">0级待萌</a></span>
+                    <i class="r_line"></i>
+					<a href="/growth" class="jiFen">积分：0</a>
+                </div>-->
+                <dl class="block1">
+                    <dt>
+                        职业 </dt>
+                    <dd>
+                        {$dat[0]['works']} </dd>
+                </dl>
+                <div class="line_ge"></div>
+                <dl class="block2" id="tag">
+                    <dt>
+                        <h3>他的标签</h3>
+                    </dt>
+                    <dd>
+                        {if !$dat[0]['perlabel']}
+                        <div class="tags">
+                            TA是一个无趣的人，还没有标签哦
+                        </div>
+                        {else}
+                        <div class="tags">
+                            {$dat[0]['perlabel']}
+                        </div>
+                        {/if}
+                    </dd>
+                </dl>
+                <div class="line_ge"></div>
+                <!-- <dl class="block2" id="intro">
+										<dt>
+						<h3>个人简介</h3>
+					</dt>
+					<dd>
+					这个家伙很懒，什么也没留下					</dd>
+									</dl> -->
+                <div class="line_ge"></div>
+                <div class="fansBox">
+                    <div class="clear fans">
+                        <div class="fl attention">
+                            <a href="javascript:;" class="all"></a>
+                            <span>{$count}</span>
+                            <em>关注</em>
+                        </div>
+                        <ul class="fl imgList">
+                            {foreach $follow as $val}
+                            <li>
+                                <a href="__SITE__/index/user/self/uid/{$val.uid}" target="_blank">
+                                {if $val['avatar']!=null}
+                                <img src="__SITE__/uploads/{$val['avatar']}" />
+                                {else}
+                                  <img src="__STATIC__/img/ad_san.png" />
+
+                                {/if}
+                                </a>
+
+                                <div class="showName">
+                                    <span class="name">{$val.username}
+                                    {if $Think.session.uid == $val.self_uid}
+                                    <span class="name" id="cancel{$val.fid}">取消关注</span>
+                                       {/if} 
+
+                                    </span>
+                                    <span class="san"></span>
+
+                                     <script type="text/javascript">
+                                           $(function(){
+
+                                              $("#cancel{$val.fid}").click(function(){
+                                                      $.ajax({
+                                                            type: "POST",
+                                                             url: "__SITE__/index/user/cancelfollow",
+                                                            data: {
+                                                                    'fid': {$val.fid}
+                                                                     },
+                                                                success: function(msg) {
+                                                                     alert(msg);
+                                                                     }
+                                                                    });
+
+                                               
+                                              });  
+
+
+
+
+                                           }); 
+
+
+
+                                    </script>    
+
+
+
+                                </div>
+
+
+                            </li>
+                            {/foreach}
+                        </ul>
+                    </div>
+                    <div class="clear fans">
+                        <div class="fl attention">
+                            <a href="javascript:;" class="all"></a>
+                            <span>{$coun}</span>
+                            <em>粉丝</em>
+                        </div>
+                        <ul class="fl imgList">
+                            {foreach $fans as $vv}
+                            <li>
+
+                                <a href="__SITE__/index/user/self/uid/{$vv.uid}" target="_blank">
+                                 {if $vv['avatar']!=null}
+                                <img src="__SITE__/uploads/{$vv['avatar']}" />
+                                {else}
+                                   <img src="__STATIC__/img/ad_san.png" />
+                                 {/if}
+                                </a>
+                                <div class="showName">
+                                    <span class="name">{$vv.username}</span>
+                                    <span class="san"></span>
+                                </div>
+                            </li>
+                            {/foreach}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!--右侧关于我end-->
+            <script type="text/javascript">
+            //右侧关于我一直都在
+            /* $(function(){	
+            	var navH = $(".main_right").offset().top;
+            	$(window).scroll(function(){
+            		var scroH = $(this).scrollTop();
+            		if(scroH>=navH){
+            			$(".main_right").css({"position":"fixed","top":0,"margin-left":"809px","z-index":"1"});
+            			$(".main_right .fansBox").hide();
+            		}else if(scroH<navH){
+            			$(".main_right").css({"position":"static","margin":"0 auto"});
+            			$(".main_right .fansBox").show();
+            		}
+            		console.log(scroH==navH);
+            	})
+            }); */
+            /*显示名称*/
+            $(".fans .imgList li").hover(function() {
+                $(this).find(".showName").show();
+            }, function() {
+                $(this).find(".showName").hide();
+            });
+            </script>
+            <script type="text/javascript">
+            /*最多xxx字*/
+            function checkAboutInputNum(e, max) {
+                var num = 0 + e.val().length;
+                if (num > max) {
+                    alert('最多可以输入' + max + '字');
+                    return false;
+                }
+                return true;
+            }
+            </script>
+            <!--右侧关于我end-->
+        </div>
+    </div>
+</div>
+<!--多图展示-->
+<div class="addNewPictures banner-box" style="display:none;"></div>
+<div class="Whole"></div>
+<script type="text/javascript">
+$(function() {
+    fixAjax();
+    $('#getMore').on('click', function() {
+        var _this = $(this),
+            _page = parseInt($(this).attr('data-page')),
+            _pagenum = parseInt($(this).attr('data-pagenum')),
+            _nextpage = _page + 1;
+        if (_page < _pagenum) {
+            $.ajax({
+                url: '/user/193895',
+                type: 'get',
+                data: {
+                    'page': _nextpage
+                },
+                dataType: 'html',
+                beforeSend: function() {
+                    $('#load_more').html('加载中...');
+                },
+                complete: function() {
+                    $('#load_more').html('更多');
+                },
+                success: function(result) {
+                    _this.attr('data-page', _nextpage);
+                    _page++;
+                    $('#listLoopArea').append('<div id="autoLoopArea_' + _nextpage + '" style="display:none;"></div>');
+                    $('#autoLoopArea_' + _nextpage).html($(result).find('#listLoopArea').html()).fadeIn(1000);
+                    fixAjax();
+                    if (_page == _pagenum) {
+                        $('#load_more').remove();
+                    }
+                }
+            });
+        }
+    });
+});
+
+function fixAjax() {
+    //喜欢状态
+    $('.Favor, .Favor2').unbind('click').click(function() {
+        var _this = $(this),
+            _status_id = _this.attr('data-status_id');
+        addStatusFavor(_status_id);
+    });
+
+    //展开评论
+    $(".Review, .Review2").unbind('click').click(function() {
+        var _this = $(this),
+            _comment_type = _this.attr('data-comment_type'),
+            _relate_id = _this.attr('data-relate_id'),
+            _commentListBox = $('#commentListBox_' + _comment_type + '_' + _relate_id),
+            _commentBox = $('#commentBox_' + _comment_type + '_' + _relate_id);
+        if (_commentListBox.find('li').length == 0) {
+            showComList(_comment_type, _relate_id, 1);
+        }
+        _commentBox.is(':hidden') ? _commentBox.slideDown() : _commentBox.slideUp();
+    });
+
+    //收起评论
+    $(".putAway").unbind('click').click(function() {
+        $(this).parent().slideUp();
+        $("html,body").animate({
+            scrollTop: $(this).parent().parent().offset().top
+        }, 300);
+    });
+
+    //发布评论
+    $('.commentSubmit').each(function() {
+        var _this = $(this),
+            _comment_type = _this.attr('data-comment_type'),
+            _relate_id = _this.attr('data-relate_id');
+        _this.unbind('click').click(function() {
+            addComment(_comment_type, _relate_id);
+        });
+    });
+
+    //删除状态
+    $('.del').unbind('click').click(function() {
+        var _this = $(this);
+        _status_id = _this.attr('data-status_id');
+        _delBox = _this.children(".siSureDel");
+
+        _delBox.show();
+        _delBox.find('.yes').unbind('click').click(function(e) {
+            _delBox.hide();
+            delStatus(_status_id);
+        });
+        _delBox.find('.no').unbind('click').click(function(e) {
+            _delBox.hide();
+        });
+    });
+
+    //大图展开
+    var w = $(window).width();
+    var h = $(window).height();
+    $(".Whole").width(w);
+    $(".Whole").height(h);
+    //多图效果
+    $(".lotGraphs").click(function() {
+        var thisID = $(this).attr('id');
+        multImages(thisID);
+    });
+    /* 大图点开 */
+    $(".clickImg").click(function() {
+        $(this).parent().prev().show();
+        $("html,body").animate({
+            scrollTop: $(this).parent().parent().parent().parent().offset().top
+        }, 300);
+        $(".Whole").show();
+    });
+    $(".big_img .close").click(function() {
+        $(this).parent().hide();
+        $(".Whole").fadeOut(500);
+    });
+    $(".Whole").click(function() {
+        $(".big_img").hide();
+        $(this).fadeOut(500);
+    });
+}
+//多图大图
+function multImages(ID) { //多图大图
+    var _thisID = ID,
+        _parentID = _thisID.replace(/(.*)\_\d$/, '$1'),
+        _thisCnt = _thisID.replace(/(.*)\_(\d)$/, '$2'),
+        _allCnt = $('#' + _thisID).parent().parent().attr('data-cnt'),
+        _max = parseInt(_allCnt) - 1,
+        _min = 0,
+        _prev = parseInt(_thisCnt) - 1,
+        _next = parseInt(_thisCnt) + 1;
+    var _thisImg = $('#' + _thisID).attr('src');
+    var _thisImgDataSrc = $('#' + _thisID).attr('data-src');
+    if (_thisImgDataSrc) {
+        _thisImg = _thisImgDataSrc;
+    }
+    var _curSor = '',
+        _imgHtml = '<div class="pic_images m_banner"><div class="banner"><span class="img_abox"><img src="' + _thisImg + '" /><span class="closeAll"></span></span></div></div>',
+        _cntHtml = '<div class="bigImg_page"><span class="on">' + (parseInt(_thisCnt) + 1) + '</span> / ' + _allCnt + '</div>';
+    if (_allCnt > 1) {
+        _curSor = '<div class="banner_ctrl"><a href="javascript:;" class="prev"></a><a href="javascript:;" class="next"></a></div>';
+    }
+    if (_thisCnt == 0) {
+        _prev = _max;
+    }
+    if (_thisCnt == _max) {
+        _next = 0;
+    }
+    $(".Whole").show();
+    $(".addNewPictures").html(_imgHtml + _curSor + _cntHtml).show();
+    $(".addNewPictures .closeAll").click(function() {
+        $(".addNewPictures").hide();
+        $(".Whole").hide();
+    });
+    $(".addNewPictures .prev").click(function() {
+        multImages(_parentID + '_' + _prev);
+    });
+    $(".addNewPictures .next").click(function() {
+        multImages(_parentID + '_' + _next);
+    });
+}
+/*获取评论*/
+function showComList(comment_type, relate_id, page) {
+    var _commentListBox = $('#commentListBox_' + comment_type + '_' + relate_id),
+        _commentCnt = $('#commentCnt_' + comment_type + '_' + relate_id),
+        _commentBtnMore = $('#commentBtnMore_' + comment_type + '_' + relate_id);
+    $.ajax({
+        type: 'post',
+        url: '/comment/do',
+        data: {
+            "ajax": "list",
+            "comment_type": comment_type,
+            "relate_id": relate_id,
+            "page": page
+        },
+        dataType: "json",
+        success: function(result) {
+            if (result.code == 1) {
+                var total = result.data.total;
+                if (total > 0) {
+                    var curpage = result.data.curpage;
+                    var pagenum = result.data.pagenum;
+                    _commentListBox.append(result.data.list);
+                    _commentCnt.html(total);
+                    //更多按钮
+                    if (curpage < pagenum) {
+                        _commentBtnMore.html('<a href="javascript:showComList(' + comment_type + ',' + relate_id + ',' + (page + 1) + ')">查看更多</a>');
+                    } else if (curpage == pagenum) {
+                        _commentBtnMore.find('a').remove();
+                    }
+                    fixCommentAjax(comment_type, relate_id, page);
+                }
+            }
+        }
+    });
+}
+
+function fixCommentAjax(comment_type, relate_id, page) {
+    var _statusData = $('#statusData_' + relate_id),
+        _commentBox = $('#commentBox_' + comment_type + '_' + relate_id),
+        _commentListBox = $('#commentListBox_' + comment_type + '_' + relate_id),
+        _commentContent = $('#commentContent_' + comment_type + '_' + relate_id),
+        _commentReplyHead = $('#commentReplyHead_' + comment_type + '_' + relate_id),
+        _commentFid = $('#commentFid_' + comment_type + '_' + relate_id);
+    _commentListBox.find('.re').each(function() {
+        var _this = $(this),
+            _comment_type = _this.attr('data-comment_type'),
+            _comment_fid = _this.attr('data-comment_id'),
+            _user_name = _this.attr('data-user_name');
+        _this.click(function() {
+            _commentFid.val(_comment_fid);
+            _commentReplyHead.val('回复：' + _user_name + '　');
+            _commentContent.focus().val('回复：' + _user_name + '　');
+            $("html,body").animate({
+                scrollTop: _statusData.offset().top
+            }, 300);
+        });
+    });
+}
+//添加评论
+function addComment(comment_type, relate_id) {
+    var _commentContent = $('#commentContent_' + comment_type + '_' + relate_id),
+        _commentReplyHead = $('#commentReplyHead_' + comment_type + '_' + relate_id),
+        _commentFid = $('#commentFid_' + comment_type + '_' + relate_id),
+        _commentCnt = $('#commentCnt_' + comment_type + '_' + relate_id),
+        _commentSubmit = $('#commentSubmit_' + comment_type + '_' + relate_id),
+        _commentListBox = $('#commentListBox_' + comment_type + '_' + relate_id);
+    var _content = _commentContent.val(),
+        _replyhead = _commentReplyHead.val(),
+        _fid = $.trim(_commentFid.val());
+    if (_fid > 0 && _content.indexOf(_replyhead) < 0) {
+        _fid = 0;
+        _content = $.trim(_content.replace(/\u56DE\u590D\uFF1A[^\u3000]*\u3000/g, ''));
+    } else {
+        _content = $.trim(_content.replace(_replyhead, ''));
+    }
+    if (_content == '') {
+        alert('评论内容不能为空！');
+        return false;
+    }
+    if (_content.length > 500) {
+        alert('字符过长！');
+        return false;
+    }
+    //add
+    $.ajax({
+        type: 'post',
+        url: '/comment/do/',
+        data: {
+            "ajax": "add",
+            "comment_type": comment_type,
+            "relate_id": relate_id,
+            "comment_fid": _fid,
+            "content": _content
+        },
+        dataType: "json",
+        beforeSend: function() {
+            _commentSubmit.attr('disabled', true);
+        },
+        success: function(result) {
+            if (result.code == 1) {
+                _commentContent.val('');
+                _commentReplyHead.val('');
+                _commentFid.val('');
+                _commentListBox.html('');
+                showComList(comment_type, relate_id, 1);
+            } else if (result.code == -1) {
+                loginPop("http://www.daizhe.cn/user/193895");
+                return false;
+            } else {
+                alert(result.msg);
+                return false;
+            }
+        },
+        complete: function() {
+            _commentSubmit.removeAttr('disabled');
+        }
+    });
+}
+//添加喜欢状态
+function addStatusFavor(status_id) {
+    if (status_id > 0) {
+        $.ajax({
+            type: "post",
+            url: '/status/do',
+            data: {
+                'ajax': 'add-favorite',
+                'status_id': status_id
+            },
+            dataType: "json",
+            success: function(result) {
+                if (result.code == 1) {
+                    var flag = result.data.flag,
+                        _btn_cnt = $('#statusFavorCnt_' + status_id);
+                    _fav_cnt = parseInt(_btn_cnt.html());
+                    if (flag == 1) {
+                        _btn_cnt.text(_fav_cnt + 1).removeClass("i2").addClass('i2_red');
+                    } else if (flag == 0) {
+                        alert('已喜欢过，请不要重复点击');
+                        return false;
+                    }
+                } else if (result.code == -1) {
+                    loginPop("http://www.daizhe.cn/user/193895");
+                    return false;
+                } else {
+                    alert(result.msg);
+                    return false;
+                }
+            }
+        });
+    }
+}
+//删除状态
+function delStatus(status_id) {
+    if (status_id > 0) {
+        $.ajax({
+            type: "post",
+            url: '/status/do',
+            data: {
+                'ajax': 'del',
+                'status_id': status_id
+            },
+            dataType: "json",
+            success: function(result) {
+                if (result.code == 1) {
+                    if ($('#statusData_' + status_id).length > 0) {
+                        $('#statusData_' + status_id).slideUp();
+                    }
+                    return true;
+                } else if (result.code == -1) {
+                    loginPop("http://www.daizhe.cn/user/193895");
+                    return false;
+                } else {
+                    alert(result.msg);
+                    return false;
+                }
+            }
+        });
+    }
+}
+</script>
+<div id="ft">
+    <ul>
+        <li>
+            <h5>关于我们<br /><em>ABOUT US</em></h5>
+            <p><a href="/intro/about" target="_blank">关于待着</a></p>
+            <p><a href="/intro/join" target="_blank">加入我们</a></p>
+            <p><a href="/intro/contact" target="_blank">联系我们</a></p>
+            <p><a href="/intro/media" target="_blank">媒体报道</a></p>
+            <p><a href="/experience/supply" target="_blank">商业合作</a></p>
+            <p><a href="/intro/cooperation" target="_blank">Cooperation</a></p>
+        </li>
+        <li>
+            <h5>帮助中心<br /><em>HELP</em></h5>
+            <p><a href="/intro/help" target="_blank">玩转待着</a></p>
+            <p><a href="/intro/advice" target="_blank">建议反馈</a></p>
+            <p><a href="/passport/certified" target="_blank">申请认证</a></p>
+        </li>
+        <li>
+            <h5>关于体验<br /><em>EXPERIENCE</em></h5>
+            <p><a href="/intro/aboutexp/v/1#content1" target="_blank">为何免费</a></p>
+            <p><a href="/intro/aboutexp/v/2#content2" target="_blank">是否有黑幕</a></p>
+            <p><a href="/intro/aboutexp/v/3#content3" target="_blank">何为体验官</a></p>
+            <p><a href="/intro/aboutexp/v/4#content4" target="_blank">体验官如何产生</a></p>
+            <p><a href="/video" target="_blank">活动视频</a></p>
+        </li>
+        <!-- 
+		<li>
+			<h5>合作伙伴<br /><em>HELP</em></h5>
+			<p><a href="http://www.lavion.com.cn?from=daizhe" target="_blank">优翔国际</a></p>
+			<p><a href="http://www.soyoung.com?from=daizhe" target="_blank">新氧美丽社区</a></p>
+		</li>
+		 -->
+        <li>
+            <h5>网站条款<br /><em>SITE TERMS</em></h5>
+            <p><a href="/intro/termsuser" target="_blank">会员条款</a></p>
+            <p><a href="/intro/copyright" target="_blank">版权声明</a></p>
+        </li>
+        <li class="last">
+            <a href="http://weibo.com/678300513" target="_blank" class="sina">待着公众微博</a>
+            <a href="javascript:;" class="weixin" style="cursor:default; text-decoration:none;">待着公众微信</a>
+            
+        </li>
+    </ul>
+    <p class="copyright">copyright 2014 daizhe.cn All rights reserved <a href="http://www.miitbeian.gov.cn/" target="_blank">京ICP备10215719号-5</a></p>
+</div>
+<script type="text/javascript">
+$(function() {
+    $(".btn_track").click(function() {
+        var btn_value = $(this).attr("btntrackv");
+        logRecorde(btn_value);
+    });
+});
+</script>
+<style type="text/css">
+#common_ajax_loading {
+    display: none;
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    background: #777A83;
+    text-align: center;
+    overflow: hidden;
+    position: fixed;
+    z-index: 999999991;
+    left: 50%;
+    bottom: 100px;
+    margin-left: -50px;
+    color: #ffffff;
+    font-size: 18px;
+    filter: alpha(opacity=60);
+    opacity: 0.5;
+    -moz-opacity: 0.5;
+}
+
+#common_ajax_loading img {
+    vertical-align: middle;
+}
+
+#common_ajax_mask {
+    display: none;
+    position: fixed;
+    z-index: 999999990;
+    top: 0;
+    left: 0;
+    right: 0px;
+    bottom: 0px;
+    background: #333333;
+    filter: alpha(opacity=60);
+    opacity: 0.6;
+}
+</style>
+<div id="common_ajax_loading">
+    <img src="__STATIC__/picture/ajax_loading_def_2.gif" />
+</div>
+<div id="common_ajax_mask"></div>
+<script type="text/javascript">
+$(function() {
+    $(document).ajaxStart(function() {
+        showComAjaxLoading();
+    });
+    $(document).ajaxStop(function() {
+        hideComAjaxLoading();
+    });
+});
+// 显示通用loading
+function showComAjaxLoading($str) {
+    if (typeof($str) != 'undefined') {
+        $('#common_ajax_loading').find('span').html($str);
+    }
+    $('#common_ajax_loading').show();
+}
+// 隐藏通用loading
+function hideComAjaxLoading($t) {
+    if (typeof($t) != 'undefined') {
+        $t = 300;
+    }
+    $('#common_ajax_loading').fadeOut($t);
+}
+// 显示通用mask
+function showComAjaxMask() {
+    $('#common_ajax_mask').show();
+}
+// 隐藏通用mask
+function hideComAjaxMask($t) {
+    if (typeof($t) != 'undefined') {
+        $t = 300;
+    }
+    $('#common_ajax_mask').fadeOut($t);
+}
+</script>
+<script type="text/javascript">
+/*返回顶部
+-------------------------------------------------------------*/
+function returnTop() {
+    var $backToTopEle = $('<div class="backToTop"></div>').prependTo($("body")).click(function() {
+        $("html, body").animate({
+            scrollTop: 0
+        }, 500);
+    })
+    var $backToTopFun = function() {
+        var st = $(document).scrollTop(),
+            winh = $(window).height();
+        (st > 1000) ? $backToTopEle.show(): $backToTopEle.hide();
+        //IE6下的定位
+        if (!window.XMLHttpRequest) {
+            $backToTopEle.css("top", st + winh - 166);
+        }
+    };
+    $(window).bind("scroll", $backToTopFun);
+    $backToTopFun();
+    $(".backToTop").hover(function() {
+        $(this).addClass("on2")
+    }, function() {
+        $(this).removeClass("on2")
+    })
+}
+returnTop();
+
+function Feedback() {
+    var $backToTopEle = $('<a href="/intro/advice" target="_blank" class="Feedback"></a>').prependTo($("body")).click(function() {
+
+    })
+    var $backToTopFun = function() {
+        var st = $(document).scrollTop(),
+            winh = $(window).height();
+        (st > 1000) ? $backToTopEle.show(): $backToTopEle.hide();
+        //IE6下的定位
+        if (!window.XMLHttpRequest) {
+            $backToTopEle.css("top", st + winh - 166);
+        }
+    };
+    $(window).bind("scroll", $backToTopFun);
+    $backToTopFun();
+    $(".Feedback").hover(function() {
+        $(this).addClass("on2");
+    }, function() {
+        $(this).removeClass("on2");
+    })
+}
+Feedback();
+
+function Provide() {
+    var $backToTopEle = $('<a href="/supply?Launch" target="_blank" class="Provide"></a>').prependTo($("body")).click(function() {
+
+    })
+    var $backToTopFun = function() {
+        var st = $(document).scrollTop(),
+            winh = $(window).height();
+        (st > 1000) ? $backToTopEle.show(): $backToTopEle.hide();
+        //IE6下的定位
+        if (!window.XMLHttpRequest) {
+            $backToTopEle.css("top", st + winh - 166);
+        }
+    };
+    $(window).bind("scroll", $backToTopFun);
+    $backToTopFun();
+    $(".Provide").hover(function() {
+        $(this).addClass("on2")
+    }, function() {
+        $(this).removeClass("on2")
+    })
+}
+Provide();
+</script>
+<!-- 统计代码开始 -->
+<div style="display: none;">
+    <script type="text/javascript">
+    var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fca0cd3424b3d97d1671da2b5a4dbe92d' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+</div>
+<!-- 统计代码结束 -->
+<script type="text/javascript">
+$(function() {
+    if ($("img.lazyLoad").length > 0) {
+        $("img.lazyLoad").lazyload({
+            effect: "fadeIn"
+        });
+    }
+});
+</script>
+</body>
+
+</html>

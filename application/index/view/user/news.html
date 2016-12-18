@@ -1,0 +1,418 @@
+
+<div class="bgeb2">    
+    <section class="w1150 clear siXin">
+    
+            			<div class="newsCenter_tit">
+                <!-- <span class="newDian"></span> --><!--有新消息显示红点-->
+                <i class="ico"></i>
+                	消息中心
+                <span class="span" style="display:none">(<i class="num" id="tip-notice_all_cnt">0</i>)</span>
+            </div>
+            
+            <div class="newsCenter_tab">
+                <div class="tab_title">
+                                        <ul class="clear">
+                        <li>
+                            <a href="javascript:;" >
+                               	 我的消息
+                                <span class="red" id="tip-notice_notification_cnt"></span>
+                                <span style="display:none" id="more-notice_notification_cnt"></span>
+                            </a>
+                        </li>
+                        <span style="display:none" id="more-notice_type">2</span>	
+                     <!--    <li>
+                            <a href="/message" class="cur">
+                               	 我的私信
+                                <span class="red" id="tip-notice_message_cnt"></span>
+                                <span style="display:none" id="more-notice_message_cnt"></span>
+                            </a>
+                        </li> -->
+                    </ul>
+                </div>
+            </div>            
+            <div class="newsCenter_message">
+            	                <ul>
+            	         {foreach $data as $value}
+                	                    <li class="clickStr huiHulue  clear"  data-id="1">
+                        <a href="/user/1" target="_blank" ><img src="/im" data-original="__SITE__/uploads/{$value.avatar}" class="fl headImg lazyLoad" /></a>
+                        
+                        <div class="fl left">
+                            <a href="/user/1" target="_blank"><font style="color:red; ">{$value.username}</font></a>
+                            <a href="javascript:void(0);" >{$value.privates_content}</a>
+                            <div class="time">{$value.privates_creattime}</div>
+                            <span class="huifu">
+
+
+
+
+
+ <a href="__SITE__/index/user/replaynews/privates_uid/{$value.write_uid}">回复
+                            </a>
+                             <a href="__SITE__/index/user/deletenews/pid/{$value.pid}">删除
+                            </a>
+
+
+
+                            </span>
+                        </div>
+                        {/foreach}
+                    </li>
+                                    </ul>
+                                            </div> 
+               	
+    </section>
+
+	<script type="text/javascript">
+	$(function(){
+		$(".clickStr").click(function () {
+			var _this = $(this),
+			dataid    = _this.attr('data-id');
+			$.ajax({
+				url:'/message/do',
+				type:'post',
+				data:{'ajax':'update-read_yn','user_id':dataid},
+				dataType:'json',
+				success:function (result){
+					if (result.code == 1) {
+						window.location.href = '/message/send/to/' + dataid;
+					} else {
+						alert(result.msg);
+						return false;
+					}
+				}
+			});	
+		});
+	});
+// 	function hu()
+// 	{
+// 		$('.btn-read_yn').each(function(){
+// 			var _this = $(this),
+// 			dataid = _this.attr('data-id');
+// 			$.ajax({
+// 				url:'/message/do',
+// 				type:'post',
+// 				data:{'ajax':'update-read_yn','user_id':dataid},
+// 				dataType:'json',
+// 				success:function (result) {
+// // 					if (result.code == 1) {
+// // 						var cnt = $('#tip-notice_message_cnt').html();
+// // 						if(parseInt(cnt-1)>0){
+// // 							var cnt = $('#tip-notice_message_cnt').html(parseInt(cnt-1));
+// // 						}else{
+// // 							var cnt = $('#tip-notice_message_cnt').html('');
+// // 						}
+// // 					}
+// 				}
+// 			});
+// 			_this.addClass("huiHulue");
+// 		});
+// 		window.location.reload();
+// 	}
+	</script>
+</div><!--bgeb end-->
+<div id="ft">
+	<ul>
+		<li>
+			<h5>关于我们<br /><em>ABOUT US</em></h5>
+			<p><a href="/intro/about" target="_blank">关于待着</a></p>
+			<p><a href="/intro/join" target="_blank">加入我们</a></p>
+			<p><a href="/intro/contact" target="_blank">联系我们</a></p>
+			<p><a href="/intro/media" target="_blank">媒体报道</a></p>
+			<p><a href="/experience/supply" target="_blank">商业合作</a></p>
+			<p><a href="/intro/cooperation" target="_blank">Cooperation</a></p>
+		</li>
+		<li>
+			<h5>帮助中心<br /><em>HELP</em></h5>
+			<p><a href="/intro/help" target="_blank">玩转待着</a></p>
+			<p><a href="/intro/advice" target="_blank">建议反馈</a></p>
+			<p><a href="/passport/certified" target="_blank">申请认证</a></p>
+		</li>
+		<li>
+			<h5>关于体验<br /><em>EXPERIENCE</em></h5>
+			<p><a href="/intro/aboutexp/v/1#content1" target="_blank">为何免费</a></p>
+			<p><a href="/intro/aboutexp/v/2#content2" target="_blank">是否有黑幕</a></p>
+			<p><a href="/intro/aboutexp/v/3#content3" target="_blank">何为体验官</a></p>
+			<p><a href="/intro/aboutexp/v/4#content4" target="_blank">体验官如何产生</a></p>
+			<p><a href="/video" target="_blank">活动视频</a></p>
+		</li>
+		<!-- 
+		<li>
+			<h5>合作伙伴<br /><em>HELP</em></h5>
+			<p><a href="http://www.lavion.com.cn?from=daizhe" target="_blank">优翔国际</a></p>
+			<p><a href="http://www.soyoung.com?from=daizhe" target="_blank">新氧美丽社区</a></p>
+		</li>
+		 -->
+		<li>
+			<h5>网站条款<br /><em>SITE TERMS</em></h5>
+			<p><a href="/intro/termsuser" target="_blank">会员条款</a></p>
+			<p><a href="/intro/copyright" target="_blank">版权声明</a></p>
+		</li>
+		<li class="last">
+			
+			<a href="javascript:;" class="weixin" style="cursor:default; text-decoration:none;">待着公众微信</a>
+			
+		</li>
+	</ul>
+	<p class="copyright">copyright 2014 daizhe.cn  All rights reserved    <a href="http://www.miitbeian.gov.cn/" target="_blank">京ICP备10215719号-5</a></p>
+</div>
+
+<script type="text/javascript">
+$(function(){
+	$(".btn_track").click(function(){
+		var btn_value=$(this).attr("btntrackv");
+		logRecorde(btn_value);
+	});
+});
+</script>
+
+<style type="text/css">
+#common_ajax_loading {display:none; width:100px; height:100px; line-height:100px; background:#777A83; text-align:center; overflow:hidden; position:fixed; z-index:999999991; left:50%; bottom:100px; margin-left:-50px; color:#ffffff; font-size:18px; filter: alpha(opacity=60); opacity:0.5; -moz-opacity:0.5;}
+#common_ajax_loading img {vertical-align:middle;}
+#common_ajax_mask {display:none; position:fixed; z-index:999999990; top:0; left:0; right:0px; bottom:0px; background:#333333; filter:alpha(opacity=60); opacity:0.6;}
+</style>
+<div id="common_ajax_loading">
+	<img src="/images/ajax_loading_def.gif"/>
+</div>
+<div id="common_ajax_mask"></div>
+<script type="text/javascript">
+$(function(){
+	$(document).ajaxStart(function(){
+		showComAjaxLoading();
+	});
+	$(document).ajaxStop(function(){
+		hideComAjaxLoading();
+	});
+});
+// 显示通用loading
+function showComAjaxLoading($str) {
+	if(typeof($str) != 'undefined'){
+		$('#common_ajax_loading').find('span').html($str);
+	}
+	$('#common_ajax_loading').show();
+}
+// 隐藏通用loading
+function hideComAjaxLoading($t) {
+	if(typeof($t) != 'undefined'){
+		$t = 300;
+	}
+	$('#common_ajax_loading').fadeOut($t);
+}
+// 显示通用mask
+function showComAjaxMask() {
+	$('#common_ajax_mask').show();
+}
+// 隐藏通用mask
+function hideComAjaxMask($t) {
+	if(typeof($t) != 'undefined'){
+		$t = 300;
+	}
+	$('#common_ajax_mask').fadeOut($t);
+}
+</script>
+
+<script type="text/javascript">
+/*返回顶部
+-------------------------------------------------------------*/
+function returnTop(){
+	var $backToTopEle = $('<div class="backToTop"></div>').prependTo($("body")).click(function() {
+		$("html, body").animate({ scrollTop: 0 }, 500);
+	})
+	var $backToTopFun = function() {
+		var st = $(document).scrollTop(), winh = $(window).height();
+		(st > 1000)? $backToTopEle.show(): $backToTopEle.hide();
+		//IE6下的定位
+		if (!window.XMLHttpRequest) {
+			$backToTopEle.css("top", st + winh - 166);	
+		}
+	};
+	$(window).bind("scroll", $backToTopFun);
+	$backToTopFun();
+	$(".backToTop").hover(function(){
+		$(this).addClass("on2")
+		},function(){
+		$(this).removeClass("on2")
+	})
+}
+returnTop();
+
+function Feedback(){
+	var $backToTopEle = $('<a href="/intro/advice" target="_blank" class="Feedback"></a>').prependTo($("body")).click(function() {
+		
+	})
+	var $backToTopFun = function() {
+		var st = $(document).scrollTop(), winh = $(window).height();
+		(st > 1000)? $backToTopEle.show(): $backToTopEle.hide();	
+		//IE6下的定位
+		if (!window.XMLHttpRequest) {
+			$backToTopEle.css("top", st + winh - 166);
+		}
+	};
+	$(window).bind("scroll", $backToTopFun);
+	$backToTopFun();
+	$(".Feedback").hover(function(){
+		$(this).addClass("on2");
+	},function(){
+		$(this).removeClass("on2");
+	})
+}
+Feedback();
+
+function Provide(){
+	var $backToTopEle = $('<a href="/supply?Launch" target="_blank" class="Provide"></a>').prependTo($("body")).click(function() {
+		
+	})
+	var $backToTopFun = function() {
+		var st = $(document).scrollTop(), winh = $(window).height();
+		(st > 1000)? $backToTopEle.show(): $backToTopEle.hide();
+		//IE6下的定位
+		if (!window.XMLHttpRequest) {
+			$backToTopEle.css("top", st + winh - 166);
+		}
+	};
+	$(window).bind("scroll", $backToTopFun);
+	$backToTopFun();
+	$(".Provide").hover(function(){
+		$(this).addClass("on2")
+	},function(){
+		$(this).removeClass("on2")
+	})
+}
+Provide();
+</script>
+
+<script type="text/javascript" src="/assets/js/ws/swfobject.js"></script>
+<script type="text/javascript" src="/assets/js/ws/web_socket.js"></script>
+<script type="text/javascript" src="/assets/js/ws/json.js"></script>
+<script type="text/javascript">
+window.onload = function(){
+	ws_init();
+};
+if (typeof console == "undefined") {
+	this.console = {
+		log: function(msg){}
+	};
+}
+WEB_SOCKET_SWF_LOCATION = "/assets/js/ws/swf/WebSocketMain.swf";
+WEB_SOCKET_DEBUG = true;
+WEB_SOCKET_SUPPRESS_CROSS_DOMAIN_SWF_ERROR = true;
+var ws,
+	ws_timer;
+function ws_init() {
+	ws = new WebSocket('ws://' + document.domain + ':3232');
+	ws.onopen = function() {
+		ws_timer && window.clearInterval(ws_timer);
+		var connect = {
+			"client_uid": "194927", 
+			"client_key": "5a08HCT6IYR7Y+EBBex/pBmdRor3Upzk7gWrHrAu+mAedEM"
+		};
+		ws.send(JSON.stringify(connect));
+	};
+	ws.onmessage = function(e) {
+				try {
+			var result = JSON.parse(e.data);
+			switch(result.push_type){
+				case 'checknotice': //推送消息数
+					showMessage1(result);
+					break;
+				default:
+					break;
+			}
+		} catch(err) {
+		}
+	};
+	ws.onclose = function() {
+		window.clearInterval(ws_timer);
+		ws_timer = window.setInterval(ws_init, 5000);
+	};
+	ws.onerror = function() {
+	};
+}
+</script>
+
+
+<script type="text/javascript">
+//展示推送的信息1
+function showMessage1(result){
+	//console.log(result);
+	if(typeof(result.push_data) != "undefined"){
+		show_notice(result.push_data);
+	}
+	}
+//展示消息数
+function show_notice(data){
+	//console.log(data);
+	if(data.new_all_cnt == 0){
+		if($('#head-notice_all_cnt1').length > 0){
+			$('#head-notice_all_cnt1').hide();
+			$('#head-notice_all_cnt1').html('0');
+		}
+		if($('#head-notice_all_cnt2').length > 0){
+			$('#head-notice_all_cnt2').hide();
+			$('#head-notice_all_cnt2').html('0');
+		}
+	}else if(data.new_all_cnt > 0){
+		if($('#tip-notice_all_cnt').length > 0){
+			$('#tip-notice_all_cnt').html(data.new_all_cnt);
+			if($('#tip-notice_all_cnt').parents('.newsCenter_tit').find('.newDian').length == 0){
+				$('#tip-notice_all_cnt').parents('.newsCenter_tit').prepend('<span class="newDian"></span>');
+			}
+		}
+		if($('#head-notice_all_cnt1').length > 0){
+			$('#head-notice_all_cnt1').html(data.new_all_cnt);
+			$('#head-notice_all_cnt1').show();
+		}
+		if($('#head-notice_all_cnt2').length > 0){
+			$('#head-notice_all_cnt2').html(data.new_all_cnt);
+			$('#head-notice_all_cnt2').show();
+		}
+	}
+	if(data.new_notification_cnt > 0){
+		if($('#tip-notice_notification_cnt').length > 0){
+			$('#tip-notice_notification_cnt').html(data.new_notification_cnt);
+			if(data.new_notification_cnt!=$('#more-notice_notification_cnt').html() && $('#more-notice_type').html()==1){
+				window.location.reload();
+			}
+		} 
+		$('#head_notice_link').attr('href', '/notification');
+	}else{
+		$("#all_hu").hide();   
+	}
+	if(data.new_message_cnt > 0){
+		if($('#tip-notice_message_cnt').length > 0){
+			$('#tip-notice_message_cnt').html(data.new_message_cnt);
+			if(data.new_message_cnt!=$('#more-notice_message_cnt').html() && $('#more-notice_type').html()==2){
+				window.location.reload();
+			}
+		}
+		$('#head_notice_link').attr('href', '/message');
+	}
+	if(data.new_news==2){
+		$('#head_notice_link').attr('href', '/notification');
+	}else{
+		$('#head_notice_link').attr('href', '/message');
+	}
+}
+</script>
+
+
+
+<!-- 统计代码开始 -->
+<div style="display: none;">
+	<script type="text/javascript">
+	var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+	document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fca0cd3424b3d97d1671da2b5a4dbe92d' type='text/javascript'%3E%3C/script%3E"));
+	</script>
+</div>
+<!-- 统计代码结束 -->
+
+<script type="text/javascript">
+$(function(){
+	if($("img.lazyLoad").length > 0){
+		$("img.lazyLoad").lazyload({
+			effect: "fadeIn"
+		});
+	}
+});
+</script>
+</body>
+</html>

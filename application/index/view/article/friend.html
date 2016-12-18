@@ -1,0 +1,1181 @@
+﻿<!--以上是头部-->
+<section class="bodyBg">
+    <div class="w1000">
+        <article class="clear fillExper">
+            <article class="fl fill_left">
+                <!--我要参与发布框-->
+                <div class="fillExper_left2 borStyle">
+                    <div class="release">
+                        <div class="clear">
+                            <a href="javascript:;" class="fl"><img src="__SITE__/uploads/{$Think.session.avatar}" class="headImg" /></a>
+                            <h3 class="fl"><span class="s_tit"></span></h3>
+                        </div>
+                        <!--发布框-->
+                        <div class="postingBox" style="position:relative;height:100px;">
+                            <textarea class="textarea status_1" placeholder="分享现在的状态..."></textarea>
+                            <div class="clear" style="position:absolute;right:0px;bottom:0px;">
+                                <input type="button" class="fr input" id="submitStatus1" value="发布" />
+                                <script type="text/javascript">
+                                $(function() {
+                                    $("#submitStatus1").bind('click', function() {
+                                        var login_uid = "";
+                                        if (login_uid == '' || login_uid == 0) {
+                                            loginPop("http://www.daizhe.cn/status/index/category/1");
+                                            return false;
+                                        } else {
+                                            $("#submitStatus2").click();
+                                        }
+                                    });
+                                });
+                                </script>
+                            </div>
+                        </div>
+                        <!--发布框2-->
+                        <div class="postingBox2" style="display:none;">
+                            <div class="textareaBox">
+                                <textarea class="textarea" placeholder="此时此刻，你在如何待着？①待着鼓励你：记录自己美好生活的片刻；②分享新发现，告诉大家好好待着的方法。③待着不欢迎：广告、违法内容、与“待着生活方式”无关的内容。"></textarea>
+                            </div>
+                            <!--照片显示框-->
+                            <div class="photoImg jQz-index" id="imgPreviewBox" style="display:none;">
+                                <!--<span id="ac6"></span>
+								<img src="picture/person_loading.gif" class="fileImg" id="imgPreview" />
+								<span class="close" id="ac7"></span>
+								<div class="photo_addImg"></div>
+								<div class="photo_number">共0张，还可上传6张</div>-->
+                            </div>
+                            <!--视频显示框2-->
+                            <div class="videoFrame2">
+                                <!--<img src="picture/exper_limg5.jpg" class="fileImg" />-->
+                                <span class="close"></span>
+                                <embed class="fileImg" height="99" width="190" quality="high" type="application/x-shockwave-flash" src="" />
+                                <span class="video_btn"></span>
+                            </div>
+                            <!--标签显示框-->
+                            <div class="tagsFrame">
+                                <!--填写标签-->
+                                <div class="tagsTextarea">
+                                    <label class="ztag">多个标签用空格分隔，最多3个</label>
+                                    <!--用什么分隔可自行定义-->
+                                    <input type="text" maxlength="20" style="width:200px" class="taginput" />
+                                    <!--<input type="text" maxlength="20" class="taginput" />-->
+                                    <!--输入时的样式-->
+                                    <!--<span class="token">待着</span>-->
+                                    <!--输入完生成，删除时删除整个span-->
+                                </div>
+                            </div>
+                            <div class="clear">
+                                <input type="button" class="fr input" id="submitStatus2" value="发布" />
+                                <script type="text/javascript">
+                                $(function() {
+                                    $("#submitStatus2").click(function() {
+                                        var imgReg = /img[0-9]+\.daizhe\.cn/;
+
+                                        var statusPost = [];
+                                        statusPost.push('ajax');
+                                        statusPost.push('index-add');
+                                        var statusContent = $(".postingBox2 textarea").val().replace(/\s*/, '');
+                                        if (statusContent != '') {
+                                            statusPost.push('content');
+                                            statusPost.push(statusContent);
+                                        }
+                                        var statusTag = '';
+                                        var statusImg = '';
+                                        var statusVideo = '';
+                                        var statusExp = $('#applyExp option:selected').val();
+                                        var statusTagCnt = $(".token").size();
+                                        if (statusTagCnt > 0) {
+                                            for (var i = 0; i < statusTagCnt; i++) {
+                                                if (i == 0) statusTag += ($(".token:eq(" + i + ")").html());
+                                                else statusTag += "," + ($(".token:eq(" + i + ")").html());
+                                            }
+                                            if (statusTagCnt < 3) {
+                                                var tagNames = $.trim($(".taginput").val());
+                                                if (tagNames && tagNames.length > 0) statusTag += "," + tagNames.replace(/\s*/, '').substring(0, 8);
+                                            }
+                                        } else {
+                                            var tagNames = $(".taginput").val().split(/[\s]/);
+                                            //alert(tagNames[1]);return false;
+                                            var newTag = '';
+                                            for (var ix = 0; ix < 3; ix++) {
+                                                if (tagNames[ix]) newTag = tagNames[ix].replace(/\s*/, '').substring(0, 8);
+                                                else newTag = '';
+                                                if (ix == 0) statusTag += newTag;
+                                                else if (newTag.length > 1) statusTag += "," + newTag;
+                                            }
+                                        }
+                                        if (statusTag != '') {
+                                            statusPost.push('tags');
+                                            statusPost.push(statusTag);
+                                        }
+                                        var imgYn = $("#imgPreviewBox");
+                                        if (imgYn.find('img').size() > 0 && imgReg.test(imgYn.find('img:eq(0)').attr('src'))) {
+                                            statusImg = '';
+                                            for (var i = 0; i < imgYn.find('img').size(); i++) {
+                                                if (imgReg.test(imgYn.find('img:eq(' + i + ')').attr('src'))) {
+                                                    statusImg += imgYn.find('img:eq(' + i + ')').attr('src') + '|';
+                                                }
+                                            }
+                                            if (statusImg != '') {
+                                                statusPost.push('photo');
+                                                statusPost.push(statusImg);
+                                            }
+                                        }
+                                        var videoYn = $("#inputVideo").val();
+                                        if (videoYn && videoYn.length > 0) {
+                                            statusVideo = videoYn;
+                                            if (statusVideo != '') {
+                                                statusPost.push('video');
+                                                statusPost.push(statusVideo);
+                                            }
+                                        }
+                                        if (statusExp) {
+                                            // alert(statusExp);return false;
+                                            statusPost.push('experience');
+                                            statusPost.push(statusExp);
+                                        }
+                                        if (statusContent == '' && statusImg == '' && statusVideo == '') {
+                                            alert('请添加文字、照片或视频！');
+                                            //alert('请添加文字或照片！');
+                                            return;
+                                        }
+                                        var statusPosts = {};
+                                        for (var ii = 0; ii < statusPost.length; ii += 2) {
+                                            statusPosts[statusPost[ii]] = statusPost[ii + 1];
+                                        }
+                                        //alert(typeof(statusPosts));
+                                        //return;
+                                        $.ajax({
+                                            url: '/status/do',
+                                            type: 'post',
+                                            data: statusPosts,
+                                            dataType: 'json',
+                                            complete: function() {
+                                                fixAjax();
+                                                fixAjaxs(".likeMe a");
+                                            },
+                                            success: function(result) {
+                                                if (result.code == 1) {
+                                                    location.href = "/status/index/category/1";
+                                                } else if (result.code == -1) {
+                                                    loginPop("http://www.daizhe.cn/status/index/category/1");
+                                                    return false;
+                                                } else {
+                                                    alert(result.msg);
+                                                    return false;
+                                                }
+                                            }
+                                        });
+                                        //alert(statusTag);
+                                    });
+                                });
+                                </script>
+                            </div>
+                            <!--<span class="tags z_indexClick" id="label"><a href="javascript:;"><i></i>标签</a></span>-->
+                            <span class="photo z_indexClick" id="photograph"><!-- photo_hov -->
+								<a href="javascript:;" id="ac2"><i id="ac3"></i>照片</a>
+								<iframe id="form_iframe" name="form_iframe" src="" width="0" height="0"></iframe>
+								<form id="fb_form" name="fb_form" method="post" action="/status/do" onsubmit="return false" enctype="multipart/form-data" target="form_iframe">
+									<input type="file" class="file" name="file[imgs][]" id="upfile" multiple="multiple" />
+									<input type="hidden" name="ac" value="upload-images" />
+								</form>
+							</span>
+                            <span class="topic z_indexClick" id="videos"><a href="javascript:;"><i></i>视频</a></span>
+                            <!--视频显示框1-->
+                            <div class="videoFrame1">
+                                <span class="input_san"></span>
+                                <textarea class="tagsTextarea" id="videoURL" placeholder="http://"></textarea>
+                                <div class="hotTag">
+                                    <input type="button" class="fr videoK" id="videoK" value="确定" />
+                                    <a href="javascript:;" class="fr callOff" id="videoCancel">取消</a> 暂时不支持新浪视频和乐视
+                                </div>
+                                <input id="inputVideo" type="hidden" value="" />
+                            </div>
+                            <script type="text/javascript">
+                            normal();
+
+                            function normal() {
+                                //z-index 层级问题
+                                var zIndex = 1000;
+                                $(".z_indexClick").click(function() {
+                                    zIndex++;
+                                });
+                                //标签
+                                $("#label").toggle(function() {
+                                    $(".tagsFrame").show().css("z-index", zIndex);;
+                                    $(this).find("i").addClass("i_tag_hov");
+                                }, function() {
+                                    $(".tagsFrame").hide();
+                                    if ($(".token").size() == 0) {
+                                        $(this).find("i").removeClass("i_tag_hov");
+                                    }
+                                });
+                                $("#tagoK").click(function() {
+                                    $(".tagsFrame").hide();
+                                    if ($(".token").size() == 0) {
+                                        $(this).find("i").removeClass("i_tag_hov");
+                                    }
+                                });
+                                $(".ztag").on('click', function() {
+                                    $(this).hide();
+                                    $(".taginput").focus();
+                                });
+                                tagInput();
+                                //照片
+                                $("#photograph").click(function() {
+                                    //$(".photoImg").show();
+                                    var videoYn = $("#inputVideo").val();
+                                    if (videoYn && videoYn.length > 0) {
+                                        alert('别贪心，照片和视频只能选一个');
+                                        return;
+                                    } else {
+                                        $(this).find("i").addClass("i_photo_hov");
+                                    }
+                                });
+                                $(".videoFrame2 .close").click(function() {
+                                    $(this).parent().fadeOut();
+                                    $(".videoFrame2 embed").attr('src', '');
+                                    $("#inputVideo").val('');
+                                    $("#upfile").show().css("z-index", zIndex);;
+                                    $("#videos").find("i").removeClass("i_video_hov");
+                                });
+                                $("#videoCancel").click(function() {
+                                    var inputVideo = $("#inputVideo").val().replace(/\s*/, '').replace('http://', '');
+                                    if (!inputVideo || inputVideo.length == 0) {
+                                        $("#videos").click();
+                                    } else {
+                                        $(".videoFrame1").hide();
+                                        $(".videoFrame2 embed").attr('src', '');
+                                        $("#inputVideo").val('');
+                                        $("#upfile").show().css("z-index", zIndex);;
+                                        $("#videos").find("i").removeClass("i_video_hov");
+                                    }
+                                });
+                                //视频
+                                $("#videos").toggle(function() {
+                                    var imgS = $("#imgPreviewBox"),
+                                        inputVideo = $("#inputVideo").val().replace(/\s*/, '').replace('http://', '');
+                                    var imgReg = /img[0-9]+\.daizhe\.cn/;
+                                    if (imgS.find('img').size() > 0 && imgReg.test(imgS.find('img:eq(0)').attr('src'))) {
+                                        alert('别贪心，照片和视频只能选一个');
+                                        return;
+                                    } else if (inputVideo && inputVideo.length > 0) {
+                                        alert('别贪心，只能上传一个视频');
+                                        return;
+                                    } else {
+                                        //$(".videoFrame1").show().css("z-index",zIndex);
+                                        $(".videoFrame1").show();
+                                        $(this).find("i").addClass("i_video_hov");
+                                    }
+                                }, function() {
+                                    var imgS = $("#imgPreviewBox"),
+                                        inputVideo = $("#inputVideo").val().replace(/\s*/, '').replace('http://', '');
+                                    var imgReg = /img[0-9]+\.daizhe\.cn/;
+                                    if (imgS.find('img').size() > 0 && imgReg.test(imgS.find('img:eq(0)').attr('src'))) {
+                                        alert('别贪心，照片和视频只能选一个');
+                                        return;
+                                    } else if (inputVideo && inputVideo.length > 0) {
+                                        alert('别贪心，只能上传一个视频');
+                                        return;
+                                    } else {
+                                        $(".videoFrame1").hide();
+                                        $(this).find("i").removeClass("i_video_hov");
+                                    }
+                                });
+                                $("#videoK").click(function() {
+                                    var videoURL = $("#videoURL").val().replace(/\s*/, '').replace('http://', '');
+                                    var urlOut = '';
+                                    if (videoURL.indexOf('.html') != -1 && videoURL.indexOf('.youku.com') != -1) {
+                                        var regexYouku1 = /id_[0-9a-zA-Z]+/;
+                                        if (videoURL.match(regexYouku1)) {
+                                            var youKu1 = videoURL.match(regexYouku1);
+                                            var urlOut = 'http://player.youku.com/player.php/sid/' + youKu1[0].replace('id_', '') + '/v.swf';
+                                        } else {
+                                            alert("该视频不支持！");
+                                            $(".videoFrame1").hide();
+                                            $("#videos").find("i").removeClass("i_video_hov");
+                                            return;
+                                        }
+                                    }
+                                    if (videoURL.indexOf('.swf') != -1 && videoURL.indexOf('.youku.com') != -1) {
+                                        var regexYouku2 = /sid\/[0-9a-zA-Z]+/;
+                                        if (videoURL.match(regexYouku2)) {
+                                            var youKu2 = videoURL.match(regexYouku2);
+                                            var urlOut = 'http://player.youku.com/player.php/sid/' + youKu2[0].replace('sid/', '') + '/v.swf';
+                                        } else {
+                                            alert("该视频不支持！");
+                                            $(".videoFrame1").hide().css("z-index", zIndex);;
+                                            $("#videos").find("i").removeClass("i_video_hov");
+                                            return;
+                                        }
+                                    }
+
+                                    //土豆
+                                    if (videoURL.indexOf('.html') != -1 && videoURL.indexOf('.tudou.com') != -1) {
+                                        var regexTudou1 = /albumplay\/[0-9a-zA-Z]+/;
+                                        if (videoURL.match(regexTudou1)) {
+                                            var tuDou1 = videoURL.match(regexTudou1);
+                                            var urlOut = 'http://www.tudou.com/a/' + tuDou1[0].replace('albumplay/', '') + '/v.swf';
+                                        } else {
+                                            alert("该视频不支持！");
+                                            $(".videoFrame1").hide();
+                                            $("#videos").find("i").removeClass("i_video_hov");
+                                            return;
+                                        }
+                                    }
+                                    if (videoURL.indexOf('.swf') != -1 && videoURL.indexOf('.tudou.com') != -1) {
+                                        var regexTudou2 = /a\/[0-9a-zA-Z]+/;
+                                        if (videoURL.match(regexTudou2)) {
+                                            var tuDou2 = videoURL.match(regexTudou2);
+                                            var urlOut = 'http://www.tudou.com/a/' + tuDou2[0].replace('a/', '') + '/v.swf';
+                                        } else {
+                                            alert("该视频不支持！");
+                                            $(".videoFrame1").hide();
+                                            $("#videos").find("i").removeClass("i_video_hov");
+                                            return;
+                                        }
+                                    }
+
+                                    //56
+                                    if (videoURL.indexOf('.html') != -1 && videoURL.indexOf('.56.com') != -1) {
+                                        var regex561 = /v_[0-9a-zA-Z]+[.]html/;
+                                        if (videoURL.match(regex561)) {
+                                            var k51 = videoURL.match(regex561);
+                                            var urlOut = 'http://player.56.com/' + k51[0].replace('.html', '') + '.swf';
+                                        } else {
+                                            alert("该视频不支持！");
+                                            $(".videoFrame1").hide();
+                                            $("#videos").find("i").removeClass("i_video_hov");
+                                            return;
+                                        }
+                                    }
+                                    if (videoURL.indexOf('.swf') != -1 && videoURL.indexOf('.56.com') != -1) {
+                                        var regex562 = /v_[0-9a-zA-Z]+[.]swf/;
+                                        if (videoURL.match(regex562)) {
+                                            var k52 = videoURL.match(regex562);
+                                            var urlOut = 'http://player.56.com/' + k52[0] + '.swf';
+                                        } else {
+                                            alert("该视频不支持！");
+                                            $(".videoFrame1").hide();
+                                            $("#videos").find("i").removeClass("i_video_hov");
+                                            return;
+                                        }
+                                    }
+
+                                    //腾讯
+                                    if (videoURL.indexOf('.swf') != -1 && videoURL.indexOf('static.video.qq.com') != -1) {
+                                        var regexQq2 = /vid=[0-9a-zA-Z]+/;
+                                        if (videoURL.match(regexQq2)) {
+                                            var qq2 = videoURL.match(regexQq2);
+                                            var urlOut = 'http://static.video.qq.com/TPout.swf?' + qq2[0] + '&auto=0';
+                                        } else {
+                                            alert("该视频不支持！");
+                                            $(".videoFrame1").hide();
+                                            $("#videos").find("i").removeClass("i_video_hov");
+                                            return;
+                                        }
+                                    }
+                                    if (videoURL.indexOf('.html') != -1 && videoURL.indexOf('.qq.com') != -1) {
+                                        if (videoURL.indexOf('?vid=') != -1) {
+                                            var regexQq1 = /vid=[0-9a-zA-Z]+/;
+                                            if (videoURL.match(regexQq1)) {
+                                                var qq1 = videoURL.match(regexQq1);
+                                                //console.log(qq1[0]);
+                                                var urlOut = 'http://static.video.qq.com/TPout.swf?vid=' + qq1[0].replace('vid=', '') + '&auto=0';
+                                            } else {
+                                                alert("该视频不支持！");
+                                                $(".videoFrame1").hide();
+                                                $("#videos").find("i").removeClass("i_video_hov");
+                                                return;
+                                            }
+                                        } else {
+                                            var regexQq1 = /\/[0-9a-zA-Z]+[.]html/;
+                                            if (videoURL.match(regexQq1)) {
+                                                var qq1 = videoURL.match(regexQq1);
+                                                var qq3 = qq1[0].replace(/\//, "")
+                                                var urlOut = 'http://static.video.qq.com/TPout.swf?vid=' + qq3.replace('.html', '') + '&auto=0';
+                                            } else {
+                                                alert("该视频不支持！");
+                                                $(".videoFrame1").hide();
+                                                $("#videos").find("i").removeClass("i_video_hov");
+                                                return;
+                                            }
+                                        }
+                                    }
+                                    if (urlOut.length > 0) {
+                                        $(".videoFrame2 embed").attr('src', urlOut);
+                                        $(".videoFrame2").show();
+                                        $("#inputVideo").val(urlOut);
+                                        $("#upfile").hide();
+                                        $(".videoFrame1").hide();
+                                        //$("#videos").find("i").removeClass("i_video_hov");
+                                    } else {
+                                        alert("请输入正确的视频地址！");
+                                        //$(".videoFrame1").hide();
+                                        //$("#videos").find("i").removeClass("i_video_hov");
+                                        return;
+                                    }
+
+                                });
+                                //
+                                $(".status_1").focusin(function() {
+                                    var login_uid = "";
+                                    if (login_uid == '' || login_uid == 0) {
+                                        loginPop("http://www.daizhe.cn/status/index/category/1");
+                                        return false;
+                                    } else {
+                                        $(".postingBox").hide();
+                                        $(".postingBox2").show();
+                                        $(".postingBox2 textarea").focus();
+                                    }
+                                });
+                                $(".status_1").hover(function() {
+                                    $(this).find(".r1").addClass("r1_hov");
+                                }, function() {
+                                    $(this).find(".r1").removeClass("r1_hov");
+                                });
+                            }
+
+                            function imgClose() {
+                                $("#imgPreviewBox .close").click(function() {
+                                    // console.log('111');
+                                    $(this).prev().remove();
+                                    if ($(this).siblings('img').size() == 0) {
+                                        $(this).parent().fadeOut().empty();
+                                        $("#photograph").find("i").removeClass("i_photo_hov");
+                                    } else if ($(this).siblings('img').size() > 0 && $(this).siblings('img').size() < 6) {
+                                        if ($('.photo_addImg').html() == undefined) {
+                                            $('.photo_number').before('<div class="photo_addImg"></div>');
+                                        }
+                                    }
+                                    $(this).remove();
+                                });
+                            }
+
+                            function tagInput() {
+                                $(".taginput").focusin(function() {
+                                    $(".ztag").hide();
+                                    //alert($(this).position());
+                                });
+                                $(".taginput").focusout(function() {
+                                    var tagValue = $(this).val();
+                                    var tags = $(this).siblings(".token").length;
+                                    if (tagValue.length == 0 && tags == 0) {
+                                        $(".ztag").show();
+                                    }
+                                });
+                                $(".taginput").keydown(function(event) {
+                                    var tagCnt = $(this).siblings(".token").length;
+                                    var tagValue = $(this).val().replace(/\s*/, '');
+                                    var sigPos = $(this).position();
+                                    if (tagCnt > 0 && event.keyCode == 8 && sigPos == 0) {
+                                        $(this).prev(".token").remove();
+                                    }
+                                    if (tagCnt > 0 && event.keyCode == 8 && sigPos == 1) {
+                                        $(this).prev(".token").remove();
+                                    }
+                                    if (tagCnt >= 3) {
+                                        $(this).val('');
+                                        //console.log(tagCnt);
+                                        return false;
+                                    }
+                                    if (tagValue.length > 8) {
+                                        tagValue = tagValue.substring(0, 8);
+                                    }
+                                    if (tagCnt < 3 && event.keyCode == 32 && tagValue != '') {
+                                        $(this).before('<span class="token">' + tagValue + '</span>').val('');
+                                    }
+                                });
+                            }
+                            </script>
+                        </div>
+                    </div>
+                </div>
+                <div class="hight15"></div>
+                <div class="fillExper_left2 borStyle" id="onceGo">
+                    <div class="ex_line"></div>
+                    <!--全部状态-->
+                    <div class="allStatusTit clear"><a href="__SITE__/index/article/article" class="cur">随便看看</a> <a href="__SITE__/index/article/friend">收藏状态</a></div>
+                 <!--    <ul class="commentTag clear">
+                        <li class="cur"><a href="/status/index/category/1">最新</a></li>
+                        <li><a href="/status/index/category/0">热门</a></li>
+                    </ul> -->
+                    <div id="listLoopArea" class="publishMain">
+                        <!--喜欢列表-->
+                        <div class="iLike_box clear">
+                            <span class="san"></span>
+                            <ul>
+                            </ul>
+                        </div>
+                        <!--评论展开-->
+
+                        <div class="model_comments" id="commentBox_9_73526">
+                            <span class="model_san"></span>
+                            <div class="clear inputTxt">
+                                <textarea class="w_input fl" id="commentContent_9_73526"></textarea>
+                                <input type="hidden" id="commentReplyHead_9_73526" value="" />
+                                <input type="hidden" id="commentFid_9_73526" value="0" />
+                                <input type="button" class="fl txtBtn commentSubmit" value="发布" id="commentSubmit_9_73526" data-comment_type="9" data-relate_id="73526" />
+                            </div>
+                            <ul class="com_list clear" id="commentListBox_9_73526"></ul>
+                            <div class="moreMeg cBlue" id="commentBtnMore_9_73526"></div>
+                            <div class="shou putAway"><i></i></div>
+                        </div>
+                        <!--评论 无图-->
+                        {foreach $data as $value}
+                        <div class="comment_noImg statusContext floatingDel" id="statusData_73525">
+                            <!-- comment_imgBg -->
+                            <div class="clear topHead">
+                                <div class="fl clear">
+                                    <div class="fl leftheadImg">
+                                        <!-- <a class="headImg_a" href="/user/107446" target="_blank"><img src="picture/57e018cb0b4d4aeb9eaa0cbacb4b560a.gif" class="fl headImg" /></a> -->
+                                        <!--个人信息浮动框-->
+                                        <div class="model_imgFloat">
+                                            <span class="f_san"></span>
+                                            <h4>
+										<!-- <a href="/user/107446" target="_blank" class="name">……。q</a> -->
+																			</h4>
+                                            <p>…………</p>
+                                            <div class="likeMe like_107446">
+                                                <a href="javascript:;" class="attention" data-uid="107446" data-followta="0" data-followme="0"><i></i>关注</a>
+                                                <!--关注-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="fr">
+                                        <!-- <a href="/user/107446" target="_blank" class="name">……。q</a> -->
+                                    </div>
+                                </div>
+                                <span class="fr time">{$value.enjoy_createtime}</span>
+                            </div>
+                            <div class="com_text">
+                                <p>{$value.test_article} </p>
+                            </div>
+                            <div class="bom_box clear">
+                                <div class="fr icos">
+                                    <span class="i2">
+									<i class="jx_heart" data-status_id="73525"></i>
+									<em class="jx_iLike" style="cursor:default;">0</em>
+								</span>
+                                    <span class="i3 jx_comment" data-relate_id="73525">
+									<i></i>
+									<em>0</em>
+								</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!--喜欢列表-->
+                        <div class="iLike_box clear">
+                            <span class="san"></span>
+                            <ul>
+                            </ul>
+                        </div>
+                        <!--评论展开-->
+                        <div class="model_comments" id="commentBox_9_73525">
+                            <span class="model_san"></span>
+                            <div class="clear inputTxt">
+                                <textarea class="w_input fl" id="commentContent_9_73525"></textarea>
+                                <input type="hidden" id="commentReplyHead_9_73525" value="" />
+                                <input type="hidden" id="commentFid_9_73525" value="0" />
+                                <input type="button" class="fl txtBtn commentSubmit" value="发布" id="commentSubmit_9_73525" data-comment_type="9" data-relate_id="73525" />
+                            </div>
+                            <ul class="com_list clear" id="commentListBox_9_73525"></ul>
+                            <div class="moreMeg cBlue" id="commentBtnMore_9_73525"></div>
+                            <div class="shou putAway"><i></i></div>
+                        </div>
+                        <!--评论 无图-->
+                        <div class="comment_noImg statusContext floatingDel" id="statusData_73524">
+                            <!-- comment_imgBg -->
+                            <div class="clear topHead">
+                                <div class="fl clear">
+                                    <div class="fl leftheadImg">
+                                     
+                                        <!--个人信息浮动框-->
+                                        <div class="model_imgFloat">
+                                            <span class="f_san"></span>
+                                            <h4>
+										<a href="/user/129907" target="_blank" class="name">晨湮</a>
+																			</h4>
+                                            <p>TA的签名还在环游世界 过两天就来</p>
+                                            <div class="likeMe like_129907">
+                                                <a href="javascript:;" class="attention" data-uid="129907" data-followta="0" data-followme="0"><i></i>关注</a>
+                                                <!--关注-->
+                                            </div>
+                                        </div>
+                                     
+                                    </div>
+                                    {/foreach}   
+                                    <!--加载更多-->
+                                    <!--<div class="loadingMore" id="getMore" data-page="1" data-pagenum="6707">
+			<span id='moress'>更多</span>			</div>-->
+                                    <!--分页-->
+                                    <div class="pages">
+                                        <!-- style="display:none;" -->
+                                        <div class="pages pagesu">
+                                            <div id="yw0" class="pages"><a class="hidden" href="/status/index/category/1">&lt;&lt;</a>
+                                                <a class="hidden" href="/status/index/category/1">&lt;</a>
+                                                <a class="on" href="/status/index/category/1">1</a>
+                                                <a href="/status/index/category/1/page/2">2</a>
+                                                <a href="/status/index/category/1/page/3">3</a>
+                                                <a href="/status/index/category/1/page/4">4</a>
+                                                <a href="/status/index/category/1/page/5">5</a>
+                                                <a href="/status/index/category/1/page/6">6</a>
+                                                <a href="/status/index/category/1/page/7">7</a>
+                                                <a href="/status/index/category/1/page/8">8</a>
+                                                <a href="/status/index/category/1/page/9">9</a>
+                                                <a href="/status/index/category/1/page/10">10</a>
+                                                <a href="/status/index/category/1/page/2">&gt;</a>
+                                                <a href="/status/index/category/1/page/6707">&gt;&gt;</a></div>
+                                        </div>
+                                    </div>
+                                    <script type="text/javascript">
+                                    3;
+                                    var curpage = parseInt(1);
+                                    var pagenum = parseInt(6707);
+
+                                    var detect_height = 600; //距下边界长度/单位px
+                                    $(document).ready(function() {
+                                        var timeout = false;
+                                        $(window).scroll(function() {
+                                            if (timeout) {
+                                                clearTimeout(timeout);
+                                            }
+                                            timeout = setTimeout(function() {
+                                                var scroll_top = parseFloat($(this).scrollTop()); //滚动条距顶部距离垂直高度(页面超出窗口的高度)
+                                                var window_height = parseFloat($(this).height()); //浏览器的高度
+                                                var document_height = parseFloat($(document).height()); //页面的文档高度
+                                                if (curpage < 3 && window_height + scroll_top >= document_height - detect_height) {
+                                                    ajaxPage('auto');
+                                                }
+                                            }, 100);
+                                        });
+                                    });
+
+                                    function ajaxPage(m) {
+                                        var nextpage = curpage + 1;
+                                        if (curpage < 3) {
+                                            $.ajax({
+                                                url: '/status',
+                                                type: 'get',
+                                                data: {
+                                                    'category': 1,
+                                                    'page': nextpage,
+                                                    'timestamp': 1480830636
+                                                },
+                                                dataType: 'html',
+                                                success: function(result) {
+                                                    curpage++;
+                                                    $('#listLoopArea').append('<div id="autoLoopArea_' + nextpage + '" style="display:none;"></div>');
+                                                    $('#autoLoopArea_' + nextpage).html($(result).find('#listLoopArea').html()).fadeIn(1000);
+                                                    $('.pagesu').html($(result).find('.pagesu').html());
+                                                    if (curpage >= pagenum) {
+                                                        $('#load_more').remove();
+                                                    }
+                                                    fixAjax();
+                                                    fixAjaxs(".likeMe a");
+                                                    //评论显示头像
+                                                    $(".leftheadImg, .rightheadImg").hover(function() {
+                                                        $(this).find(".model_imgFloat").show();
+                                                    }, function() {
+                                                        $(this).find(".model_imgFloat").hide();
+                                                    });
+                                                    extendImg();
+                                                }
+                                            });
+                                        }
+                                    }
+                                    </script>
+                                    <script type="text/javascript">
+                                    $(function() {
+                                        fixAjax();
+                                        fixAjaxs(".likeMe a");
+                                        uploadImgs();
+                                        uploadExtend();
+                                    });
+
+                                    function uploadExtend() {
+                                        $('#imgPreviewBox').unbind('click').on('click', '.photo_addImg', function() {
+                                            $('#upfile').unbind('click').click();
+                                        });
+                                    }
+
+                                    function uploadImgs() {
+                                        //上传图片
+                                        $('#upfile').on("change", function(e) {
+                                            var filenames = [];
+                                            $.each($('#upfile').prop("files"), function(k, v) {
+                                                filenames.push(v['name'].replace(/[\ |\~|\`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?]/g, ""));
+                                            });
+                                            var imgS = $("#imgPreviewBox");
+                                            if (imgS.find('img').size() > 0) {
+                                                var imgPreview = imgS.html().replace('<div class="photo_addImg"></div>', '');
+                                                imgPreview = imgPreview.replace(/\<div class=\"photo_number\"\>[^>]*\<\/div\>/, '');
+                                            } else {
+                                                var imgPreview = '';
+                                            }
+                                            if (filenames.length > (6 - parseInt(imgS.find('img').size()))) {
+                                                alert('最多可上传6张图片');
+                                            } else {
+                                                for (var i = 0; i < filenames.length; i++) {
+                                                    imgPreview += '<img src="picture/person_loading.gif" class="fileImg" id="imgPreview_' + filenames[i] + '" />';
+                                                    imgPreview += '<span class="close" id="ac7_' + filenames[i] + '"></span>';
+                                                }
+                                                if ((parseInt(imgS.find('img').size()) + parseInt(filenames.length)) > 0) {
+                                                    if ((parseInt(imgS.find('img').size()) + parseInt(filenames.length)) < 6) {
+                                                        imgPreview += '<div class="photo_addImg"></div>';
+                                                    }
+                                                    imgPreview += '<div class="photo_number">共' + (parseInt(imgS.find('img').size()) + parseInt(filenames.length)) + '张，还可上传' + (6 - (parseInt(imgS.find('img').size()) + parseInt(filenames.length))) + '张</div>';
+                                                    $('#imgPreviewBox').html(imgPreview).show();
+                                                    this.value != '' && this.form.submit();
+                                                } else {
+                                                    $("#photograph").find("i").removeClass("i_photo_hov");
+                                                }
+                                            }
+                                            return;
+                                        });
+                                        //上传完毕
+                                        $('#form_iframe').on("load", function(e) {
+                                            var upIfrBdEl = $('#form_iframe')[0].contentWindow.document.body,
+                                                upbackText = upIfrBdEl && (upIfrBdEl.innerText || upIfrBdEl.textContent);
+                                            if (upbackText) {
+                                                try {
+                                                    var reJSON = $.parseJSON(upbackText);
+                                                    if (reJSON.code >= 1) {
+                                                        var imgURL = reJSON.data;
+                                                        for (var i = 0; i < imgURL.length; i++) {
+                                                            if (imgURL[i].url.length > 0) {
+                                                                $('#imgPreview_' + imgURL[i].id).attr('src', '/img/url?url=' + imgURL[i].url + '&h=70&w=70');
+                                                            }
+                                                        }
+                                                        // alert(imgURL.length);
+                                                        // $('#add_photo').val(imgURL);
+                                                        // imgURL && $('#imgPreview').attr('src',imgURL);
+                                                        imgClose();
+                                                        uploadExtend();
+                                                        $('#imgPreviewBox').show();
+                                                    } else {
+                                                        $('#imgPreviewBox').hide();
+                                                        alert(reJSON.msg);
+                                                    }
+                                                } catch (err) {
+                                                    $('#imgPreviewBox').hide();
+                                                }
+                                            }
+                                        });
+                                    }
+                                    </script>
+            </article>
+            <script type="text/javascript">
+            var lock = false;
+
+            function fixAjax() {
+                //删除状态
+                $('.del').click(function() {
+                    var _this = $(this);
+                    _status_id = _this.attr('data-status_id');
+                    _delBox = _this.children(".siSureDel");
+                    _delBox.show();
+                });
+                $('.yes').click(function() {
+
+                    var _this = $(this);
+                    _status_id = _this.attr('data-status_id'),
+                        _delBox = $("#siSureDel" + _status_id);
+                    _delBox.show();
+                    delStatus(_status_id);
+                });
+                $('.no').click(function() {
+                    var _this = $(this);
+                    _status_id = _this.attr('data-status_id');
+                    _delBox = $("#siSureDel" + _status_id);
+                    _delBox.hide();
+                });
+                //删除按钮
+                $(".person_delate").click(function() {
+                    $(this).next().show();
+                });
+                $(".floatingDel").hover(function() {
+                    $(this).find(".person_delate").show();
+                }, function() {
+                    $(this).find(".person_delate").hide();
+                });
+
+                $(".jx_heart").unbind('click').click(function() {
+                    var _this = $(this),
+                        status_id = _this.attr('data-status_id'),
+                        _next = _this.parent().parent().parent().parent().next();
+                    $.ajax({
+                        type: "post",
+                        url: '/status/do',
+                        data: {
+                            'ajax': 'add-favorite',
+                            'status_id': status_id
+                        },
+                        dataType: "json",
+                        success: function(result) {
+                            if (result.code == 1) {
+                                var flag = result.data.flag;
+                                if (flag == 1) {
+                                    var isfollowta = result.data.isfollowta,
+                                        isfollowme = result.data.isfollowme,
+                                        user_name = result.data.user_name,
+                                        avatar = result.data.avatar,
+                                        avatar = result.data.avatar,
+                                        signature = result.data.signature,
+                                        cd_class = result.data.certifiedArr['cd_class'],
+                                        cd_title = result.data.certifiedArr['cd_title'],
+                                        _btn_fav_cnt = _this.siblings('.jx_iLike'),
+                                        _btn_fav = parseInt(_btn_fav_cnt.html());
+                                    var insertHtml = '<li class="ib_hover" id="sf_' + status_id + '_"><a href="/user/"><img src="' + avatar + '" class="headImg" /></a><div class="model_imgFloat"><span class="f_san"></span><h4><a href="/user/" class="name">' + user_name + '</a>';
+                                    if (cd_class) {
+                                        insertHtml += '<a class="model_title model_' + cd_class + ' communityTitle" href="/passport/certified" target="_blank"><i class="showName"><span class="name">' + cd_title + '</span><span class="g_san"></span></i></a>';
+                                    }
+                                    insertHtml += '</h4><p>' + signature + '</p><div class="likeMe like_"></div></div></li>';
+                                    _this.addClass('jx_hearted');
+                                    _btn_fav_cnt.text(_btn_fav + 1).attr('style', 'cursor:hand');
+                                    //alert(_next.find('li').length);
+                                    if (_next.find('li').length > 0) {
+                                        _next.find('li:eq(0)').before(insertHtml);
+                                    } else {
+                                        _next.find('ul').html(insertHtml);
+                                    }
+                                    fixAjaxs("#who" + status_id + "_");
+                                } else if (flag == 0) {
+                                    // alert('已喜欢过，请不要重复点击');
+                                    _btn_fav_cnt = _this.siblings('.jx_iLike'),
+                                        _btn_fav = parseInt(_btn_fav_cnt.html());
+                                    _removeElm = _next.find('#sf_' + status_id + '_' + 0);
+                                    // console.log(_removeElm);
+                                    if (_removeElm.length > 0) {
+                                        _this.removeClass('jx_hearted');
+                                        _btn_fav_cnt.text(_btn_fav - 1).attr('style', 'cursor:hand');
+                                        _removeElm.remove();
+                                    }
+                                    return false;
+                                }
+                            } else if (result.code == -1) {
+                                loginPop("http://www.daizhe.cn/status/index/category/1");
+                                return false;
+                            } else {
+                                alert(result.msg);
+                                return false;
+                            }
+                        }
+                    });
+                });
+                //喜欢展开
+                $(".jx_iLike").toggle(function() {
+                    if (parseInt($(this).text()) > 0) {
+                        $(this).parent().parent().parent().parent().next().slideDown();
+                    }
+                    $(".model_comments").hide();
+                }, function() {
+                    $(this).parent().parent().parent().parent().next().slideUp();
+                    // $(".model_comments").hide();
+                });
+                //展开评论
+                $(".jx_comment").unbind('click').click(function() {
+                    var _this = $(this),
+                        _comment_type = 9,
+                        _relate_id = _this.attr('data-relate_id'),
+                        _commentListBox = $('#commentListBox_' + _comment_type + '_' + _relate_id),
+                        _commentBox = $('#commentBox_' + _comment_type + '_' + _relate_id);
+                    if (_commentListBox.find('li').length == 0) {
+                        showComList(_comment_type, _relate_id, 1);
+                    }
+                    $(".iLike_box").hide();
+                    $(this).parent().parent().parent().next().next().slideToggle();
+                });
+
+                //收起评论
+                $(".putAway").unbind('click').click(function() {
+                    $("html,body").animate({
+                        scrollTop: $(this).parent().offset().top
+                    }, 300);
+                    $(this).parent().slideUp();
+                });
+
+                //发布评论
+                $('.commentSubmit').each(function() {
+                    var _this = $(this),
+                        _comment_type = _this.attr('data-comment_type'),
+                        _relate_id = _this.attr('data-relate_id');
+                    _this.unbind('click').click(function() {
+                        addComment(_comment_type, _relate_id);
+                    });
+                });
+                //头像显示
+                $(".information_headImg").hover(function() {
+                    $(this).find(".model_imgFloat").show();
+                }, function() {
+                    $(this).find(".model_imgFloat").hide();
+                })
+            }
+            //删除状态
+            function delStatus(status_id) {
+                if (status_id > 0) {
+                    $.ajax({
+                        type: "post",
+                        url: '/status/do',
+                        data: {
+                            'ajax': 'del',
+                            'status_id': status_id
+                        },
+                        dataType: "json",
+                        success: function(result) {
+                            if (result.code == 1) {
+                                if ($('#statusData_' + status_id).length > 0) {
+                                    $('#statusData_' + status_id).slideUp();
+                                    $('#statusData_' + status_id).next('.iLike_box').hide();
+                                    $('#commentBox_9_' + status_id).hide();
+                                }
+                            } else if (result.code == -1) {
+                                loginPop("http://www.daizhe.cn/status/index/category/1");
+                                return false;
+                            } else {
+                                alert(result.msg);
+                                return false;
+                            }
+                        }
+                    });
+                } else {
+                    return false;
+                }
+            }
+
+            function fixAjaxs(elm) {
+                _elm = $(elm);
+                //头像显示浮框
+                $(".iLike_box .ib_hover").hover(function() {
+                    $(this).find(".model_imgFloat").show();
+                }, function() {
+                    $(this).find(".model_imgFloat").hide();
+                });
+                //关注
+                //$(".likeMe a").hover(
+                _elm.hover(
+                    function() {
+                        //alert($(this).attr('class'));
+                        var orgClass = $(this).attr('class'),
+                            newClass = '';
+                        switch (orgClass) {
+                            case 'attention':
+                                $(this).attr('class', 'attention_hov');
+                                break;
+                            case 'yi_attention':
+                            case 'together':
+                                $(this).attr('class', 'qu_attention').html('<i></i>取消关注');
+                                break;
+                            default:
+                                break;
+                        }
+                    },
+                    function() {
+                        var orgClass = $(this).attr('class'),
+                            followta = $(this).attr('data-followta'),
+                            followme = $(this).attr('data-followme');
+                        switch (orgClass) {
+                            case 'attention_hov':
+                                $(this).attr('class', 'attention');
+                                break;
+                            case 'qu_attention':
+                                if (followta == '1' && followme == '1') $(this).attr('class', 'together').html('<i></i>互相关注');
+                                else $(this).attr('class', 'yi_attention').html('<i></i>已关注');
+                                break;
+                            default:
+                                break;
+                        }
+                    });
+                _elm.unbind('mousedown').mousedown(function() {
+                    var _this = $(this);
+                    var uids = _this.attr("data-uid");
+                    var _that = $(".like_" + uids + " a");
+                    $.ajax({
+                        url: '/user/do',
+                        type: 'post',
+                        data: {
+                            'ajax': 'follow',
+                            'type': 1,
+                            'id': uids
+                        },
+                        dataType: 'json',
+                        success: function(result) {
+                            if (result.code == '1') {
+                                //console.log(result.data);
+                                if (result.data != 'undefined' && result.data > 0) {
+                                    if (result.data == 1) {
+                                        //_this.attr('class','yi_attention').attr('data-followta','1').html('<i></i>已关注');
+                                        _that.attr('class', 'yi_attention').attr('data-followta', '1').html('<i></i>已关注');
+                                    } else if (result.data == 2) {
+                                        //_this.attr('class','together').attr('data-followta','1').attr('data-followme','1').html('<i></i>互相关注');
+                                        _that.attr('class', 'together').attr('data-followta', '1').attr('data-followme', '1').html('<i></i>互相关注');
+                                    } else {
+                                        //_this.attr('class','attention').attr('data-followta','0').html('<i></i>关注');
+                                        _that.attr('class', 'attention').attr('data-followta', '0').html('<i></i>关注');
+                                    }
+                                } else {
+                                    //_this.attr('class','attention').attr('data-followta','0').html('<i></i>关注');
+                                    _that.attr('class', 'attention').attr('data-followta', '0').html('<i></i>关注');
+                                }
+                            } else if (result.code == "-1") {
+                                loginPop("http://www.daizhe.cn/status/index/category/1");
+                                return false;
+                            } else {
+                                alert(result.msg);
+                                return false;
+                            }
+                        }
+                    });
+                });
+            }
+            //添加评论
+            function addComment(comment_type, relate_id) {
+                var _commentContent = $('#commentContent_' + comment_type + '_' + relate_id),
+                    _commentReplyHead = $('#commentReplyHead_' + comment_type + '_' + relate_id),
+                    _commentFid = $('#commentFid_' + comment_type + '_' + relate_id),
+                    _commentCnt = $('#commentCnt_' + comment_type + '_' + relate_id),
+                    _commentSubmit = $('#commentSubmit_' + comment_type + '_' + relate_id),
+                    _commentListBox = $('#commentListBox_' + comment_type + '_' + relate_id);
+                var _content = _commentContent.val(),
+                    _replyhead = _commentReplyHead.val(),
+                    _fid = $.trim(_commentFid.val());
+                if (_fid > 0 && _content.indexOf(_replyhead) < 0) {
+                    _fid = 0;
+                    _content = $.trim(_content.replace(/\u56DE\u590D\uFF1A[^\u3000]*\u3000/g, ''));
+                } else {
+                    _content = $.trim(_content.replace(_replyhead, ''));
+                }
+                if (_content == '') {
+                    alert('评论内容不能为空！');
+                    return false;
+                }
+                if (_content.length > 500) {
+                    alert('字符过长！');
+                    return false;
+                }
+                //add
+                $.ajax({
+                    type: 'post',
+                    url: '/comment/do/',
+                    data: {
+                        "ajax": "add",
+                        "comment_type": comment_type,
+                        "relate_id": relate_id,
+                        "comment_fid": _fid,
+                        "content": _content
+                    },
+                    dataType: "json",
+                    beforeSend: function() {
+                        _commentSubmit.attr('disabled', true);
+                    },
+                    success: function(result) {
+                        if (result.code == 1) {
+                            _commentContent.val('');
+                            _commentReplyHead.val('');
+                            _commentFid.val('');
+                            _commentListBox.html('');
+                            showComList(comment_type, relate_id, 1);
+                            $("#statusData_" + relate_id + " .jx_comment em").html(parseInt($("#statusData_" + relate_id + " .jx_comment em").html()) + 1);
+                        } else if (result.code == -1) {
+                            loginPop("http://www.daizhe.cn/status/index/category/1");
+                            return false;
+                        } else {
+                            alert(result.msg);
+                            return false;
+                        }
+                    },
+                    complete: function() {
+                        _commentSubmit.removeAttr('disabled');
+                    }
+                });
+            }
+
+            /*获取评论*/
+            function showComList(comment_type, relate_id, page) {
+                var _commentListBox = $('#commentListBox_' + comment_type + '_' + relate_id),
+                    _commentCnt = $('#commentCnt_' + comment_type + '_' + relate_id),
+                    _commentBtnMore = $('#commentBtnMore_' + comment_type + '_' + relate_id);
+                if (!lock) {
+                    $.ajax({
+                        type: 'post',
+                        url: '/comment/do',
+                        data: {
+                            "ajax": "listnew",
+                            "comment_type": comment_type,
+                            "relate_id": relate_id,
+                            "page": page
+                        },
+                        dataType: "json",
+                        beforeSend: function() {
+                            lock = true;
+                        },
+                        success: function(result) {
+                            if (result.code == 1) {
+                                var total = result.data.total;
+                                if (total > 0) {
+                                    var curpage = result.data.curpage;
+                                    var pagenum = result.data.pagenum;
+                                    _commentListBox.append(result.data.list);
+                                    _commentCnt.html(total);
+                                    //更多按钮
+                                    if (curpage < pagenum) {
+                                        _commentBtnMore.html('<a href="javascript:showComList(' + comment_type + ',' + relate_id + ',' + (page + 1) + ')">查看更多</a>');
+                                    } else if (curpage == pagenum) {
+                                        _commentBtnMore.find('a').remove();
+                                    }
+                                    fixCommentAjax(comment_type, relate_id, page);
+                                    fixAjax();
+                                    fixAjaxs(".likeMe a");
+                                }
+                            }
+                        },
+                        complete: function() {
+                            lock = false;
+                        }
+                    });
+                }
+            }
+
+            function fixCommentAjax(comment_type, relate_id, page) {
+                var _statusData = $('#statusData_' + relate_id),
+                    _commentBox = $('#commentBox_' + comment_type + '_' + relate_id),
+                    _commentListBox = $('#commentListBox_' + comment_type + '_' + relate_id),
+                    _commentContent = $('#commentContent_' + comment_type + '_' + relate_id),
+                    _commentReplyHead = $('#commentReplyHead_' + comment_type + '_' + relate_id),
+                    _commentFid = $('#commentFid_' + comment_type + '_' + relate_id);
+                // console.log(_commentBox.html());
+                _commentListBox.find('.re').each(function() {
+                    var _this = $(this),
+                        _comment_type = _this.attr('data-comment_type'),
+                        _comment_fid = _this.attr('data-comment_id'),
+                        _user_name = _this.attr('data-user_name');
+                    _this.click(function() {
+                        _commentFid.val(_comment_fid);
+                        _commentReplyHead.val('回复：' + _user_name + '　');
+                        _commentContent.focus().val('回复：' + _user_name + '　');
+                        $("html,body").animate({
+                            scrollTop: _statusData.offset().top
+                        }, 300);
+                    });
+                });
+            }
+            </script>
+            <!-- 统计代码开始 -->
+            <div style="display: none;">
+                <script type="text/javascript">
+                var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+                document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fca0cd3424b3d97d1671da2b5a4dbe92d' type='text/javascript'%3E%3C/script%3E"));
+                </script>
+            </div>
+            <!-- 统计代码结束 -->
+            <script type="text/javascript">
+            $(function() {
+                if ($("img.lazyLoad").length > 0) {
+                    $("img.lazyLoad").lazyload({
+                        effect: "fadeIn"
+                    });
+                }
+            });
+            </script>
+            </body>
+
+            </html>

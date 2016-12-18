@@ -1,0 +1,397 @@
+
+<div class="bgeb2">
+	<section class="w1150">
+		<article class="all_search">
+			<h1 class="title">全站搜索</h1>
+			<div class="search_box clear">
+				<!-- <form action="http://www.daizhe.cn/search" method="get">
+					<span class="note"></span> <input type="text" class="fl text" name="k" value="搜索" onclick="if( $(this).attr(&#39;value&#39;)==&#39;卡玛拉雅&#39; ){$(this).attr(&#39;value&#39;,&#39;&#39;);$(this).removeClass(&#39;hui&#39;)}" onblur="if($(this).attr(&#39;value&#39;)==&#39;&#39;){$(this).attr(&#39;value&#39;,&#39;卡玛拉雅&#39;); $(this).addClass(&#39;hui&#39;)}" id="search"> <input type="submit" class="fl searBtn" id="btn_submit" value="搜索" style="color:white; background:blue;">
+				</form> -->
+			</div>
+			<div class="search_list" id="searchTab">
+				<p class="line"></p>
+				<ul class="tab_nav clear">
+					<li data-key="1">
+						<h4>生活</h4> <span>(<i>0</i>)
+					</span>
+					</li>
+					<li class="cur" data-key="2">
+						<h4>帖子</h4> <span>(<i>1</i>)
+					</span>
+					</li>
+					<li data-key="3">
+						<h4>社区</h4> <span>(<i>0</i>)
+					</span>
+					</li>
+					<li class="nomr" data-key="4">
+						<h4>用户</h4> <span>(<i>10</i>)
+					</span>
+					</li>
+				</ul>
+				<ul class="text_list">
+										<li><span>【帖子】</span>
+
+									
+		 <a href="__SITE__/index/article/neirong/aid/{$sou.aid}" target="_blank">
+                                         
+										     {$sou.art_title}
+                                    
+
+
+										</a>
+
+                                       
+										</li>
+									</ul>
+			</div>
+		</article>
+	</section>
+</div>
+<!--bgeb end-->
+
+<script type="text/javascript">
+$(function(){
+	tag("#searchTab");
+
+	$('#search').focusout(function () {
+		tip_a($(this));
+	});
+
+	$('.note').on('click', function () {
+		$(this).parent().find('.text').focus();
+	});
+
+	$('.search_box .text').on('focusin', function () {
+		$(this).parent().find('.note').hide();
+	});
+});
+/*切换
+--------------------------------------------------------------*/
+function tag( getID ){
+	$(getID + " .tab_nav li").each(function(i){
+		var t = $(this).attr('data-key');
+		$(this).click(function(){
+			window.location.href = '/search?t=' + t + '&k=%E9%82%A3%E5%A4%A9';
+			//$(getID+" .text_list").eq(i).show().siblings(".text_list").hide();
+			//$(this).addClass("cur").siblings().removeClass("cur");
+		})						
+	})
+}
+/*搜索
+--------------------------------------------------------------*/	
+function tip_a(a) {
+	var peth_t = a.parent().find('.note');
+	if (a.val().length == 0) {
+		peth_t.show();
+	} else {
+		peth_t.hide();
+	};
+};
+</script>
+
+<div id="ft">
+	<ul>
+		<li>
+			<h5>关于我们<br><em>ABOUT US</em></h5>
+			<p><a href="http://www.daizhe.cn/intro/about" target="_blank">关于待着</a></p>
+			<p><a href="http://www.daizhe.cn/intro/join" target="_blank">加入我们</a></p>
+			<p><a href="http://www.daizhe.cn/intro/contact" target="_blank">联系我们</a></p>
+			<p><a href="http://www.daizhe.cn/intro/media" target="_blank">媒体报道</a></p>
+			<p><a href="http://www.daizhe.cn/experience/supply" target="_blank">商业合作</a></p>
+			<p><a href="http://www.daizhe.cn/intro/cooperation" target="_blank">Cooperation</a></p>
+		</li>
+		<li>
+			<h5>帮助中心<br><em>HELP</em></h5>
+			<p><a href="http://www.daizhe.cn/intro/help" target="_blank">玩转待着</a></p>
+			<p><a href="http://www.daizhe.cn/intro/advice" target="_blank">建议反馈</a></p>
+			<p><a href="http://www.daizhe.cn/passport/certified" target="_blank">申请认证</a></p>
+		</li>
+		<li>
+			<h5>关于体验<br><em>EXPERIENCE</em></h5>
+			<p><a href="http://www.daizhe.cn/intro/aboutexp/v/1#content1" target="_blank">为何免费</a></p>
+			<p><a href="http://www.daizhe.cn/intro/aboutexp/v/2#content2" target="_blank">是否有黑幕</a></p>
+			<p><a href="http://www.daizhe.cn/intro/aboutexp/v/3#content3" target="_blank">何为体验官</a></p>
+			<p><a href="http://www.daizhe.cn/intro/aboutexp/v/4#content4" target="_blank">体验官如何产生</a></p>
+			<p><a href="http://www.daizhe.cn/video" target="_blank">活动视频</a></p>
+		</li>
+		<!-- 
+		<li>
+			<h5>合作伙伴<br /><em>HELP</em></h5>
+			<p><a href="http://www.lavion.com.cn?from=daizhe" target="_blank">优翔国际</a></p>
+			<p><a href="http://www.soyoung.com?from=daizhe" target="_blank">新氧美丽社区</a></p>
+		</li>
+		 -->
+		<li>
+			<h5>网站条款<br><em>SITE TERMS</em></h5>
+			<p><a href="http://www.daizhe.cn/intro/termsuser" target="_blank">会员条款</a></p>
+			<p><a href="http://www.daizhe.cn/intro/copyright" target="_blank">版权声明</a></p>
+		</li>
+		<li class="last">
+			<a href="http://weibo.com/678300513" target="_blank" class="sina">待着公众微博</a>
+			<a href="javascript:;" class="weixin" style="cursor:default; text-decoration:none;">待着公众微信</a>
+			<img src="./站内搜索 - 待着，只有少数人才懂 - 待着网_files/daizhe_code_n.png" alt="" width="98" height="98">
+		</li>
+	</ul>
+	<p class="copyright">copyright 2014 daizhe.cn  All rights reserved    <a href="http://www.miitbeian.gov.cn/" target="_blank">京ICP备10215719号-5</a></p>
+</div>
+
+<script type="text/javascript">
+$(function(){
+	$(".btn_track").click(function(){
+		var btn_value=$(this).attr("btntrackv");
+		logRecorde(btn_value);
+	});
+});
+</script>
+
+<style type="text/css">
+#common_ajax_loading {display:none; width:100px; height:100px; line-height:100px; background:#777A83; text-align:center; overflow:hidden; position:fixed; z-index:999999991; left:50%; bottom:100px; margin-left:-50px; color:#ffffff; font-size:18px; filter: alpha(opacity=60); opacity:0.5; -moz-opacity:0.5;}
+#common_ajax_loading img {vertical-align:middle;}
+#common_ajax_mask {display:none; position:fixed; z-index:999999990; top:0; left:0; right:0px; bottom:0px; background:#333333; filter:alpha(opacity=60); opacity:0.6;}
+</style>
+<div id="common_ajax_loading">
+	<img src="__STATIC__/images/ajax_loading_def.gif">
+</div>
+<div id="common_ajax_mask"></div>
+<script type="text/javascript">
+$(function(){
+	$(document).ajaxStart(function(){
+		showComAjaxLoading();
+	});
+	$(document).ajaxStop(function(){
+		hideComAjaxLoading();
+	});
+});
+// 显示通用loading
+function showComAjaxLoading($str) {
+	if(typeof($str) != 'undefined'){
+		$('#common_ajax_loading').find('span').html($str);
+	}
+	$('#common_ajax_loading').show();
+}
+// 隐藏通用loading
+function hideComAjaxLoading($t) {
+	if(typeof($t) != 'undefined'){
+		$t = 300;
+	}
+	$('#common_ajax_loading').fadeOut($t);
+}
+// 显示通用mask
+function showComAjaxMask() {
+	$('#common_ajax_mask').show();
+}
+// 隐藏通用mask
+function hideComAjaxMask($t) {
+	if(typeof($t) != 'undefined'){
+		$t = 300;
+	}
+	$('#common_ajax_mask').fadeOut($t);
+}
+</script>
+
+<script type="text/javascript">
+/*返回顶部
+-------------------------------------------------------------*/
+function returnTop(){
+	var $backToTopEle = $('<div class="backToTop"></div>').prependTo($("body")).click(function() {
+		$("html, body").animate({ scrollTop: 0 }, 500);
+	})
+	var $backToTopFun = function() {
+		var st = $(document).scrollTop(), winh = $(window).height();
+		(st > 1000)? $backToTopEle.show(): $backToTopEle.hide();
+		//IE6下的定位
+		if (!window.XMLHttpRequest) {
+			$backToTopEle.css("top", st + winh - 166);	
+		}
+	};
+	$(window).bind("scroll", $backToTopFun);
+	$backToTopFun();
+	$(".backToTop").hover(function(){
+		$(this).addClass("on2")
+		},function(){
+		$(this).removeClass("on2")
+	})
+}
+returnTop();
+
+function Feedback(){
+	var $backToTopEle = $('<a href="/intro/advice" target="_blank" class="Feedback"></a>').prependTo($("body")).click(function() {
+		
+	})
+	var $backToTopFun = function() {
+		var st = $(document).scrollTop(), winh = $(window).height();
+		(st > 1000)? $backToTopEle.show(): $backToTopEle.hide();	
+		//IE6下的定位
+		if (!window.XMLHttpRequest) {
+			$backToTopEle.css("top", st + winh - 166);
+		}
+	};
+	$(window).bind("scroll", $backToTopFun);
+	$backToTopFun();
+	$(".Feedback").hover(function(){
+		$(this).addClass("on2");
+	},function(){
+		$(this).removeClass("on2");
+	})
+}
+Feedback();
+
+function Provide(){
+	var $backToTopEle = $('<a href="/supply?Launch" target="_blank" class="Provide"></a>').prependTo($("body")).click(function() {
+		
+	})
+	var $backToTopFun = function() {
+		var st = $(document).scrollTop(), winh = $(window).height();
+		(st > 1000)? $backToTopEle.show(): $backToTopEle.hide();
+		//IE6下的定位
+		if (!window.XMLHttpRequest) {
+			$backToTopEle.css("top", st + winh - 166);
+		}
+	};
+	$(window).bind("scroll", $backToTopFun);
+	$backToTopFun();
+	$(".Provide").hover(function(){
+		$(this).addClass("on2")
+	},function(){
+		$(this).removeClass("on2")
+	})
+}
+Provide();
+</script>
+
+<script type="text/javascript" src="__STATIC__/js/swfobject.js"></script>
+<script type="text/javascript" src="__STATIC__/js/web_socket.js"></script>
+<script type="text/javascript" src="__STATIC__/js/json.js"></script>
+<script type="text/javascript">
+window.onload = function(){
+	ws_init();
+};
+if (typeof console == "undefined") {
+	this.console = {
+		log: function(msg){}
+	};
+}
+WEB_SOCKET_SWF_LOCATION = "/assets/js/ws/swf/WebSocketMain.swf";
+WEB_SOCKET_DEBUG = true;
+WEB_SOCKET_SUPPRESS_CROSS_DOMAIN_SWF_ERROR = true;
+var ws,
+	ws_timer;
+function ws_init() {
+	ws = new WebSocket('ws://' + document.domain + ':3232');
+	ws.onopen = function() {
+		ws_timer && window.clearInterval(ws_timer);
+		var connect = {
+			"client_uid": "193654", 
+			"client_key": "a18ad3oUDhsqbecfb0Qe36IYg5UyyzVMt8dPSiP45HK1Noo"
+		};
+		ws.send(JSON.stringify(connect));
+	};
+	ws.onmessage = function(e) {
+				try {
+			var result = JSON.parse(e.data);
+			switch(result.push_type){
+				case 'checknotice': //推送消息数
+					showMessage1(result);
+					break;
+				default:
+					break;
+			}
+		} catch(err) {
+		}
+	};
+	ws.onclose = function() {
+		window.clearInterval(ws_timer);
+		ws_timer = window.setInterval(ws_init, 5000);
+	};
+	ws.onerror = function() {
+	};
+}
+</script>
+
+
+<script type="text/javascript">
+//展示推送的信息1
+function showMessage1(result){
+	//console.log(result);
+	if(typeof(result.push_data) != "undefined"){
+		show_notice(result.push_data);
+	}
+	}
+//展示消息数
+function show_notice(data){
+	//console.log(data);
+	if(data.new_all_cnt == 0){
+		if($('#head-notice_all_cnt1').length > 0){
+			$('#head-notice_all_cnt1').hide();
+			$('#head-notice_all_cnt1').html('0');
+		}
+		if($('#head-notice_all_cnt2').length > 0){
+			$('#head-notice_all_cnt2').hide();
+			$('#head-notice_all_cnt2').html('0');
+		}
+	}else if(data.new_all_cnt > 0){
+		if($('#tip-notice_all_cnt').length > 0){
+			$('#tip-notice_all_cnt').html(data.new_all_cnt);
+			if($('#tip-notice_all_cnt').parents('.newsCenter_tit').find('.newDian').length == 0){
+				$('#tip-notice_all_cnt').parents('.newsCenter_tit').prepend('<span class="newDian"></span>');
+			}
+		}
+		if($('#head-notice_all_cnt1').length > 0){
+			$('#head-notice_all_cnt1').html(data.new_all_cnt);
+			$('#head-notice_all_cnt1').show();
+		}
+		if($('#head-notice_all_cnt2').length > 0){
+			$('#head-notice_all_cnt2').html(data.new_all_cnt);
+			$('#head-notice_all_cnt2').show();
+		}
+	}
+	if(data.new_notification_cnt > 0){
+		if($('#tip-notice_notification_cnt').length > 0){
+			$('#tip-notice_notification_cnt').html(data.new_notification_cnt);
+			if(data.new_notification_cnt!=$('#more-notice_notification_cnt').html() && $('#more-notice_type').html()==1){
+				window.location.reload();
+			}
+		} 
+		$('#head_notice_link').attr('href', '/notification');
+	}else{
+		$("#all_hu").hide();   
+	}
+	if(data.new_message_cnt > 0){
+		if($('#tip-notice_message_cnt').length > 0){
+			$('#tip-notice_message_cnt').html(data.new_message_cnt);
+			if(data.new_message_cnt!=$('#more-notice_message_cnt').html() && $('#more-notice_type').html()==2){
+				window.location.reload();
+			}
+		}
+		$('#head_notice_link').attr('href', '/message');
+	}
+	if(data.new_news==2){
+		$('#head_notice_link').attr('href', '/notification');
+	}else{
+		$('#head_notice_link').attr('href', '/message');
+	}
+}
+</script>
+
+
+
+<!-- 统计代码开始 -->
+<div style="display: none;">
+	<script type="text/javascript">
+	var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+	document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fca0cd3424b3d97d1671da2b5a4dbe92d' type='text/javascript'%3E%3C/script%3E"));
+	</script><script src="__STATIC__/js/h.js" type="text/javascript"></script><a href="http://tongji.baidu.com/hm-web/welcome/ico?s=ca0cd3424b3d97d1671da2b5a4dbe92d" target="_blank"><img border="0" src="./站内搜索 - 待着，只有少数人才懂 - 待着网_files/21.gif" width="20" height="20"></a>
+</div>
+<!-- 统计代码结束 -->
+
+<script type="text/javascript">
+$(function(){
+	if($("img.lazyLoad").length > 0){
+		$("img.lazyLoad").lazyload({
+			effect: "fadeIn"
+		});
+	}
+});
+</script>
+
+</body></html>

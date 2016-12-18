@@ -1,0 +1,619 @@
+﻿
+
+<!--以上是头部-->
+<section class="bodyBg">
+	<div class="topBanner">
+		<div class="clear"></div>
+		<div class="w1000">
+			<div class="topNavList clear">
+				<a href="javascript:;" class="l1 l1_hov"></a>
+				<a href="javascript:;" class="l3"></a>
+				<a href="javascript:;" class="l2"></a>
+				<a href="javascript:;" class="l4 mrNo"></a>
+			</div>
+		</div>
+	</div>
+	<div class="bannerBom">
+		<div class="w1000">
+			<div class="fl b_bomLeft"></div>
+			<a href="javascript:;" class="fr right_putBtn">发起体验</a>
+		</div>
+	</div>
+	
+	<a name="ac_list"></a>
+	
+	<!--筛选-->
+	<div class="all_areaBox">
+		<div class="areaBox_city areaBox_city3">
+			<span class="sm_tit"><i class="ico2"></i>类型</span>
+			
+			<a href="javascript:;"  class="cur">全部</a>
+			<!-- <a href="/experience/index/pcd/1#ac_list" >免费申请</a>
+			<a href="/experience/index/pcd/2#ac_list" >限量抢购</a>
+			<a href="/experience/index/pcd/3#ac_list" >精彩回顾</a> -->
+		</div>
+	</div>
+	
+	<a id="AnchorBanner"></a>
+	
+	<article class="w1000">
+		<div class="listBox_info clear">
+			<div class="fl leftSelected">
+				<ul class="clear allList" id="listLoopArea">
+
+				{foreach $lifeselect as $v}
+										<li>
+						<div class="b_pic">
+							<img src="__SITE__/uploadsqqqq/{$v.art_pic}"  class="experImg lazyLoad" />
+							<a href="__SITE__/index/article/neirong/aid/{$v.aid}" target="_blank" class="Listpic_zhezhao">
+								<em class="apply">
+								查看详情								</em>
+							</a>
+						</div>
+						<div class="text_info">
+							<h5>
+
+								<span class="man">【慢旅】{$v.art_title}</span>								<a href="/experience/1010?jingxuan" target="_blank">
+									<div style="width:60px; height:20px;overflow: hidden;">{$v.art_wen} <div>
+								</a>
+							</h5>
+							<div class="clear applicaFrame">
+								<div class="fl">
+								 {if $v.ping==0}
+                                   允许评论 
+                                   {else}
+                                      不允许评论
+                                  {/if}
+								<div class="fr">
+																		<em>&nbsp;</em>申请
+																	</div>
+							</div>
+						</div>
+												<!-- 免费-->
+						<span class="free">
+						  
+							
+                           
+						</span>
+											</li>
+						{/foreach}					
+									<!-- 	<li>
+						<div class="b_pic">
+							<img src="__STATIC__/picture/grey.gif" data-original="http://cache1.daizhe.cn/experience/20151211/6/20151211173112786_320_204.jpg" class="experImg lazyLoad" />
+							<a href="/experience/1003?jingxuan" target="_blank" class="Listpic_zhezhao">
+								<em class="apply">
+								查看详情								</em>
+							</a>
+						</div>
+						<div class="text_info">
+							<h5>
+								<span class="tou">【偷闲】</span>								<a href="/experience/1003?jingxuan" target="_blank">我有一瓶酒换你尘封的记忆</a>
+							</h5>
+							<div class="clear applicaFrame">
+								<div class="fl">
+								体验完成								</div>
+								<div class="fr">
+																		<em>53</em>人申请
+																	</div>
+							</div>
+						</div>
+												<!-- 免费
+						<span class="free"></span>
+											</li> -->
+										
+									</ul> 
+
+									<div>
+				                  {$lifeselect->render()}
+							</div>
+				
+			</div>
+              
+
+			<script type="text/javascript">
+			$(function(){
+				fixAjax();
+			});
+			</script>
+			<script type="text/javascript">
+			var start = 1;
+			var islock = false;
+			var curpage = parseInt(1);
+			var pagenum = parseInt(98);
+			
+			var detect_height = 600; //距下边界长度/单位px
+			$(document).ready(function(){
+				var timeout = false;
+				$(window).scroll(function(){
+					if(timeout){
+						clearTimeout(timeout);
+					}
+					timeout = setTimeout(function(){
+						var scroll_top = parseFloat($(this).scrollTop()); //滚动条距顶部距离垂直高度(页面超出窗口的高度)
+						var window_height = parseFloat($(this).height()); //浏览器的高度
+						var document_height = parseFloat($(document).height()); //页面的文档高度
+						if(start < 3 && window_height + scroll_top >= document_height - detect_height){
+							ajaxPage();
+						}
+					}, 100);
+				}); 
+			});
+			function ajaxPage(){
+				var nextpage = curpage + 1;
+				if(!islock && curpage < pagenum){
+					$.ajax({
+						type:'get',
+						url:'/experience/index',
+						data:{'page': nextpage},
+						dataType:'html',
+						beforeSend:function(){
+							islock = true;
+						},
+						complete:function(){
+							islock = false;
+						},
+						success:function(result){
+							$('#listLoopArea').append('<div id="autoLoopArea_' + nextpage + '" style="display:none;"></div>');
+							$('#autoLoopArea_' + nextpage).replaceWith($(result).find('#listLoopArea').html()).fadeIn(1000);
+							$('#load_more').html($(result).find('#load_more').html());
+							start++;
+							curpage++;
+							fixAjax();
+						}
+					});
+				}
+			}
+			function fixAjax(){
+				$(".listBox_info li:nth-child(2n)").addClass("clemr");
+				$(".listBox_info .b_pic").hover(function(){
+					$(this).find(".Listpic_zhezhao").show();
+				},function(){
+					$(this).find(".Listpic_zhezhao").hide();
+				});
+				
+				$("img").lazyload({
+					effect: "fadeIn"
+				});
+			}
+			</script>
+			
+			<div class="fr rightSelected borStyle">
+				
+				<div id="ads-experience_index_right_ad1" style="margin-bottom:30px;">
+<a href="__SITE__/index/user/self/uid/{$Think.session.uid}">
+ {if $Think.session.avatar !=null}
+<img src="__SITE__/uploads/{$Think.session.avatar}" width="260" border="0" />
+{else}
+<img src="__STATIC__/images/20161.jpg" width="260" border="0" />
+{/if}
+</a>
+</div>
+				
+				<!-- <div class="lineMargin"></div> -->
+				
+				<!--热门标签-->
+				<div class="newUser">
+					<h1>热门标签</h1>
+					<div class="status_hotTag clear" style="margin-bottom:-10px;">
+
+					       {foreach $lifeselect as $val}
+					         {if $val.art_label !=null}
+							<a href="javascript:;" target="_blank">{$val.art_label}</a>
+							{/if}					
+							{/foreach}
+											</div>
+				</div>
+				
+				<div class="lineMargin"></div>
+				
+				<!--最新体验官-->
+				<div class="exper_Officer">
+					<h1>
+						<!-- <a href="#" class="fr more_more">全部/MORE</a> -->
+						最新体验官
+					</h1>
+					<ul class="offficerList offficerList2 clear">
+
+					   {foreach $newuser as $va}
+												<li class="clear">
+							<div class="commFlaotImg">
+
+								<a href="__SITE__/index/user/self/uid/{$va.uid}" target="_blank" class="fl ib_hover">
+								  {if $va.avatar!=null}
+								<img src="__SITE__/uploads/{$va.avatar}" class="headImg" /></a>
+								{else}
+								  <img src="__SITE__/static/images/20165.jpg" class="headImg" /></a>
+								{/if}
+								<div class="model_imgFloat">
+	<span class="f_san"></span>
+	<h4>
+		<a href="__SITE__/index/user/self/uid/{$va.uid}" target="_blank" class="name">{$va.username}</a>
+		<a class="model_title model_t2 communityTitle" href="__SITE__/index/user/self/uid/{$va.uid}" target="_blank">
+			<i class="showName">
+				<span class="name">个人标签：{$va.perlabel}</span>
+				<span class="g_san"></span>
+			</i>
+		</a>
+	</h4>
+	<p>{$va.perlabel}</p>
+</div>
+							</div>
+							<!--<div class="fl nameBox">
+								<a href="/user/31669" target="_blank" class="nameO">躁动的卡侬</a>
+								<a class="model_title model_t2 communityTitle" href="/passport/certified" target="_blank">
+	<i class="showName">
+		<span class="name">体验官：认真的送一次礼物——上海 · 泰迪之家、体验绝美的太湖山水生活——太湖花床度假民宿、我有一瓶酒换你尘封的记忆</span>
+		<span class="g_san"></span>
+	</i>
+</a>
+								<div class="sign">
+									运营主管								</div>
+							</div>-->
+						</li>
+						{/foreach}
+	
+											</ul>
+				</div>
+				
+				<div id="ads-experience_index_right_ad2" style="margin-bottom:20px;">
+<a href="javascript:;" target="_blank"><img src="__STATIC__/images/20162.jpg" width="260" border="0" /></a>
+</div>
+				
+				<div class="lineMargin"></div>
+				
+				<!--体验报告-->
+				<div class="experienceReport">
+					<h4>
+						<a href="javascript:;" target="_blank" class="fr more_more">全部/MORE</a>
+						体验报告
+					</h4>
+										<div class="model_sp">
+						<a href="javascript:;" target="_blank"><img src="__STATIC__/images/20163.jpg" class="t_img" /></a>
+						<div class="model_tx">
+							<a href="javascript:;" target="_blank" class="tx_pp">水岸边，阡陌尽头，盼你缓缓归。...</a>
+							<br><a href="javascript:;" target="_blank" class="tx_name">Dec。</a>
+						</div>
+					</div>
+										<ul class="reportList">
+											<li class="clear">
+							<a href="javascript:;" target="_blank"><img src="__STATIC__/images/20164.jpg" class="fl sm_pic" /></a>
+							<div class="fr right_text">
+								<a href="javascript:;" target="_blank">就这样在“space”一直待着吧</a>
+								<br><a href="javascript:;" target="_blank" class="r_name">fabrizia</a>
+							</div>
+						</li>
+											<li class="clear">
+							<a href="javascript:;" target="_blank"><img src="__STATIC__/images/20165.jpg" class="fl sm_pic" /></a>
+							<div class="fr right_text">
+								<a href="javascript:;" target="_blank">因为对白，你可以被世界温柔以待</a>
+								<br><a href="javascript:;" target="_blank" class="r_name">埜樹</a>
+							</div>
+						</li>
+											<li class="clear">
+							<a href="javascript:;" target="_blank"><img src="__STATIC__/images/20166_50.jpg" class="fl sm_pic" /></a>
+							<div class="fr right_text">
+								<a href="javascript:;" target="_blank">共将诗酒趁流年</a>
+								<br><a href="javascript:;" target="_blank" class="r_name">西木子</a>
+							</div>
+						</li>
+											<li class="clear">
+							<a href="javascript:;" target="_blank"><img src="__STATIC__/images/20167.jpg" class="fl sm_pic" /></a>
+							<div class="fr right_text">
+								<a href="javascript:;" target="_blank">遇见喧嚣，忘记喧嚣  inTANG+</a>
+								<br><a href="javascript:;" target="_blank" class="r_name">归去来兮</a>
+							</div>
+						</li>
+										</ul>
+									</div>
+				
+								
+			</div>
+		</div>
+		
+	</article>
+</section>
+
+<script type="text/javascript">
+$(function(){
+	//头衔显示悬浮
+	$(document).off("mouseover", ".communityTitle").on("mouseover", ".communityTitle", function(){
+		$(this).find(".showName").show();
+	}).on("mouseout", function(){
+		$(this).find(".showName").hide();
+	});
+});
+</script>
+<script type="text/javascript">
+$(function(){
+	//头像显示浮框
+	$(document).off("mouseover", ".commFlaotImg").on("mouseover", ".commFlaotImg", function(){
+		$(this).find(".model_imgFloat").show();
+	}).on("mouseout", function(){
+		$(this).find(".model_imgFloat").hide();
+	});
+	//头衔显示悬浮
+	$(document).off("mouseover", ".model_imgFloat .communityTitle").on("mouseover", ".model_imgFloat .communityTitle", function(){
+		$(this).find(".showName").show();
+	}).on("mouseout", function(){
+		$(this).find(".showName").hide();
+	});
+	//点击关注按钮
+	$(document).off("click", ".model_imgFloat a[data-attention_id^='user']").on("click", ".model_imgFloat a[data-attention_id^='user']", function(){
+		var _this = $(this),
+		_user = $(this).attr("data-attention_id");
+		$.ajax({
+			url:"/user/do",
+			type:"post",
+			data:{"ajax":"follow", "type":1, "id":_user.replace("user", "")},
+			dataType:"json",
+			success:function(result){
+				if(result.code == 1){
+					if(result.data != "undefined" && result.data > 0){
+						if(result.data == 1){
+							_this.attr("data-attention_yn", "1");
+							_this.attr("data-attention_txt", "已关注");
+							_this.attr("data-attention_class", "yi_attention");
+							_this.html("<i></i>已关注").removeClass().addClass("yi_attention");
+						}else if(result.data == 2){
+							_this.attr("data-attention_yn", "1");
+							_this.attr("data-attention_txt", "互相关注");
+							_this.attr("data-attention_class", "together");
+							_this.html("<i></i>互相关注").removeClass().addClass("together");
+						}
+					}else{
+						_this.attr("data-attention_yn", "0");
+						_this.attr("data-attention_txt", "关注");
+						_this.attr("data-attention_class", "attention");
+						_this.html("<i></i>关注").removeClass().addClass("attention");
+						_this.unbind("mouseout").unbind("mouseover");
+					}
+				}else if(result.code == -1){
+					loginPop("/experience");
+					return false;
+				}else{
+					alert(result.msg);
+					return false;
+				}
+			}
+		});
+	});
+});
+</script>
+
+<!-- 悬浮导航条 -->
+<div class="floatNav" id="AnchorBar">
+	<div class="listNavStyle">
+		<div class="w1000">
+			<div class="clear">
+				<div class="fl listNavStyle_a">
+				 {foreach $dat as $va}
+					<a href="__SITE__/index/life/video/cid/{$va.cid}" style="color:white; font-size:18px; text-align: center;line-height: 50px;">{$va.category_title} </a><!--精选-->
+					<!-- <a href="/experience/list/type/1" class="third"></a>
+					<a href="/experience/list/type/2" class="second"></a>
+					<a href="/experience/list/type/4" class="fourth"></a> -->
+					{/foreach}
+				</div>
+				<a href="javascript:;" class="fr right_putBtn" id="btn_supply_bar" data-type="0" data-type_name="">发起</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+$(function(){
+	var AH_Banner = $('#AnchorBanner').offset().top;
+	
+	$(window).scroll(function(){
+		set_scroll($(this).scrollTop());
+	});
+	function set_scroll(h){
+		if(h >= AH_Banner){
+			$('#AnchorBar').fadeIn(300);
+		}else{
+			$('#AnchorBar').fadeOut(600);
+		}
+	}
+});
+</script>
+
+<script type="text/javascript">
+$(function(){
+	$("#btn_supply, #btn_supply_bar").on("click", function(){
+		window.location.href = 'javascript:;';
+	});
+});
+</script>
+
+<div id="ft">
+	<ul>
+		<li>
+			<h5>关于我们<br /><em>ABOUT US</em></h5>
+			<p><a href="javascript:;" target="_blank">关于待着</a></p>
+			<p><a href="javascript:;" target="_blank">加入我们</a></p>
+			<p><a href="javascript:;" target="_blank">联系我们</a></p>
+			<p><a href="javascript:;" target="_blank">媒体报道</a></p>
+			<p><a href="javascript:;" target="_blank">商业合作</a></p>
+			<p><a href="javascript:;" target="_blank">Cooperation</a></p>
+		</li>
+		<li>
+			<h5>帮助中心<br /><em>HELP</em></h5>
+			<p><a href="javascript:;" target="_blank">玩转待着</a></p>
+			<p><a href="javascript:;" target="_blank">建议反馈</a></p>
+			<p><a href="javascript:;" target="_blank">申请认证</a></p>
+		</li>
+		<li>
+			<h5>关于体验<br /><em>EXPERIENCE</em></h5>
+			<p><a href="javascript:;" target="_blank">为何免费</a></p>
+			<p><a href="javascript:;" target="_blank">是否有黑幕</a></p>
+			<p><a href="javascript:;" target="_blank">何为体验官</a></p>
+			<p><a href="javascript:;" target="_blank">体验官如何产生</a></p>
+			<p><a href="javascript:;" target="_blank">活动视频</a></p>
+		</li>
+		<!-- 
+		<li>
+			<h5>合作伙伴<br /><em>HELP</em></h5>
+			<p><a href="http://www.lavion.com.cn?from=daizhe" target="_blank">优翔国际</a></p>
+			<p><a href="http://www.soyoung.com?from=daizhe" target="_blank">新氧美丽社区</a></p>
+		</li>
+		 -->
+		<li>
+			<h5>网站条款<br /><em>SITE TERMS</em></h5>
+			<p><a href="javascript:;" target="_blank">会员条款</a></p>
+			<p><a href="javascript:;" target="_blank">版权声明</a></p>
+		</li>
+		<li class="last">
+			<a href="javascript:;" target="_blank" class="sina">待着公众微博</a>
+			<a href="javascript:;" class="weixin" style="cursor:default; text-decoration:none;">待着公众微信</a>
+			<img src="__STATIC__/images/daizhe_code_n.png" alt="" width="98" height="98" />
+		</li>
+	</ul>
+	<p class="copyright">copyright 2014 daizhe.cn  All rights reserved    <a href="http://www.miitbeian.gov.cn/" target="_blank">京ICP备10215719号-5</a></p>
+</div>
+
+<script type="text/javascript">
+$(function(){
+	$(".btn_track").click(function(){
+		var btn_value=$(this).attr("btntrackv");
+		logRecorde(btn_value);
+	});
+});
+</script>
+
+<style type="text/css">
+#common_ajax_loading {display:none; width:100px; height:100px; line-height:100px; background:#777A83; text-align:center; overflow:hidden; position:fixed; z-index:999999991; left:50%; bottom:100px; margin-left:-50px; color:#ffffff; font-size:18px; filter: alpha(opacity=60); opacity:0.5; -moz-opacity:0.5;}
+#common_ajax_loading img {vertical-align:middle;}
+#common_ajax_mask {display:none; position:fixed; z-index:999999990; top:0; left:0; right:0px; bottom:0px; background:#333333; filter:alpha(opacity=60); opacity:0.6;}
+</style>
+<div id="common_ajax_loading">
+	<img src="__STATIC__/images/ajax_loading_def.gif"/>
+</div>
+<div id="common_ajax_mask"></div>
+<script type="text/javascript">
+$(function(){
+	$(document).ajaxStart(function(){
+		showComAjaxLoading();
+	});
+	$(document).ajaxStop(function(){
+		hideComAjaxLoading();
+	});
+});
+// 显示通用loading
+function showComAjaxLoading($str) {
+	if(typeof($str) != 'undefined'){
+		$('#common_ajax_loading').find('span').html($str);
+	}
+	$('#common_ajax_loading').show();
+}
+// 隐藏通用loading
+function hideComAjaxLoading($t) {
+	if(typeof($t) != 'undefined'){
+		$t = 300;
+	}
+	$('#common_ajax_loading').fadeOut($t);
+}
+// 显示通用mask
+function showComAjaxMask() {
+	$('#common_ajax_mask').show();
+}
+// 隐藏通用mask
+function hideComAjaxMask($t) {
+	if(typeof($t) != 'undefined'){
+		$t = 300;
+	}
+	$('#common_ajax_mask').fadeOut($t);
+}
+</script>
+
+<script type="text/javascript">
+/*返回顶部
+-------------------------------------------------------------*/
+function returnTop(){
+	var $backToTopEle = $('<div class="backToTop"></div>').prependTo($("body")).click(function() {
+		$("html, body").animate({ scrollTop: 0 }, 500);
+	})
+	var $backToTopFun = function() {
+		var st = $(document).scrollTop(), winh = $(window).height();
+		(st > 1000)? $backToTopEle.show(): $backToTopEle.hide();
+		//IE6下的定位
+		if (!window.XMLHttpRequest) {
+			$backToTopEle.css("top", st + winh - 166);	
+		}
+	};
+	$(window).bind("scroll", $backToTopFun);
+	$backToTopFun();
+	$(".backToTop").hover(function(){
+		$(this).addClass("on2")
+		},function(){
+		$(this).removeClass("on2")
+	})
+}
+returnTop();
+
+function Feedback(){
+	var $backToTopEle = $('<a href="javascript:;"_blank" class="Feedback"></a>').prependTo($("body")).click(function() {
+		
+	})
+	var $backToTopFun = function() {
+		var st = $(document).scrollTop(), winh = $(window).height();
+		(st > 1000)? $backToTopEle.show(): $backToTopEle.hide();	
+		//IE6下的定位
+		if (!window.XMLHttpRequest) {
+			$backToTopEle.css("top", st + winh - 166);
+		}
+	};
+	$(window).bind("scroll", $backToTopFun);
+	$backToTopFun();
+	$(".Feedback").hover(function(){
+		$(this).addClass("on2");
+	},function(){
+		$(this).removeClass("on2");
+	})
+}
+Feedback();
+
+function Provide(){
+	var $backToTopEle = $('<a href="javascript:;" class="Provide"></a>').prependTo($("body")).click(function() {
+		
+	})
+	var $backToTopFun = function() {
+		var st = $(document).scrollTop(), winh = $(window).height();
+		(st > 1000)? $backToTopEle.show(): $backToTopEle.hide();
+		//IE6下的定位
+		if (!window.XMLHttpRequest) {
+			$backToTopEle.css("top", st + winh - 166);
+		}
+	};
+	$(window).bind("scroll", $backToTopFun);
+	$backToTopFun();
+	$(".Provide").hover(function(){
+		$(this).addClass("on2")
+	},function(){
+		$(this).removeClass("on2")
+	})
+}
+Provide();
+</script>
+
+
+
+<!-- 统计代码开始 -->
+<div style="display: none;">
+	<script type="text/javascript">
+	var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+	document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fca0cd3424b3d97d1671da2b5a4dbe92d' type='text/javascript'%3E%3C/script%3E"));
+	</script>
+</div>
+<!-- 统计代码结束 -->
+
+<script type="text/javascript">
+$(function(){
+	if($("img.lazyLoad").length > 0){
+		$("img.lazyLoad").lazyload({
+			effect: "fadeIn"
+		});
+	}
+});
+</script>
+</body>
+</html>
